@@ -23,6 +23,9 @@
 #include "tim.h"
 #include "gpio.h"
 
+#include <string.h>
+#include <stdio.h>
+
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
@@ -35,7 +38,7 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-
+// DELAY_TIME is already defined in z_qflash_W25QXXX_test.h
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -96,9 +99,49 @@ int main(void)
   MX_MDMA_Init();
   MX_QUADSPI_Init();
   MX_TIM2_Init();
+  HAL_TIM_Base_Start(&htim2);
+
+  QFlash_Init();
 
   /* USER CODE BEGIN 2 */
-  HAL_StatusTypeDef result = HAL_OK;
+  HAL_StatusTypeDef result = HAL_OK;  // Commented out unused variable
+  // TIM2->EGR = 1; // Reset
+  HAL_Delay(DELAY_TIME);
+  /* Time test: BEGIN */
+  uint32_t ttime;
+  uint8_t buffer_read[1<<8]; // Test for 256B
+  memset(buffer_read, 0, sizeof(buffer_read));
+  uint8_t buffer_r1 = 0xFF, buffer_r2 = 0xFF, buffer_r3 = 0xFF;
+  QFlash_WriteEnable();
+  QFlash_ReadSR1(&buffer_r1);
+  QFlash_ReadSR2(&buffer_r2);
+  buffer_r2 = 0x02;
+  QFlash_WriteSR2(buffer_r2);
+  QFlash_ReadSR2(&buffer_r2);
+  QFlash_ReadSR3(&buffer_r3);
+  // uint8_t buffer_write[1<<8]; // Test for 64KB
+  // for (uint32_t i=0; i<(1<<8); i++)
+  //   buffer_write[i]=i&0xFF;
+
+   // Time to erase entire chip
+ //  ttime = TIM2->CNT;
+ //  QFlash_ChipErase();
+ //  printf("Erase time for 64KB: %u us\n", TIM2->CNT - ttime);
+
+  // Time to write the buffer
+  // ttime = TIM2->CNT;
+  // QFlash_Write(0, buffer_write, sizeof(buffer_write));
+  // printf("Write time for 64KB: %lu us\n", TIM2->CNT - ttime);
+  // Time to read the buffer
+//  ttime = TIM2->CNT;
+//  QFlash_Read(0, buffer_read, 1<<16);
+//  printf("Read time for 64KB: %lu us\n", TIM2->CNT - ttime);
+//  buffer_read[0] = 0x63;
+  // Time to erase 64KB
+  // ttime = TIM2->CNT;
+  // QFlash_BErase64k(0);
+  // printf("Erase time for 64KB: %u us\n", TIM2->CNT - ttime);
+  /* Time test: END */
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -106,8 +149,9 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-    // BlinkIt(result);
-    TestStatusRegisters(1);
+	  BlinkIt(!result);
+	  printf("hello Sphenika\n");
+	  HAL_Delay(1000);
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
@@ -172,7 +216,17 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
+int _write(int file, char *ptr, int len)
+{
+  (void)file;
+  int DataIdx;
 
+  for (DataIdx = 0; DataIdx < len; DataIdx++)
+  {
+    ITM_SendChar(*ptr++);
+  }
+  return len;
+}
 /* USER CODE END 4 */
 
  /* MPU Configuration */

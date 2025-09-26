@@ -363,6 +363,10 @@ HAL_StatusTypeDef 	QFlash_CheckSR1();
 HAL_StatusTypeDef  	QFlash_WriteSR2(uint8_t data);
 HAL_StatusTypeDef  	QFlash_WriteSR3(uint8_t data);
 
+// Manual chip select control functions
+void 				QFlash_ChipSelect(void);
+void 				QFlash_ChipDeselect(void);
+
 #endif //FLASH_QSPI_MEMORY_MAPPED
 
 

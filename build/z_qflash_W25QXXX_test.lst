@@ -1,0 +1,2490 @@
+ARM GAS  /tmp/ccUyhhg2.s 			page 1
+
+
+   1              		.cpu cortex-m7
+   2              		.arch armv7e-m
+   3              		.fpu fpv5-d16
+   4              		.eabi_attribute 28, 1
+   5              		.eabi_attribute 20, 1
+   6              		.eabi_attribute 21, 1
+   7              		.eabi_attribute 23, 3
+   8              		.eabi_attribute 24, 1
+   9              		.eabi_attribute 25, 1
+  10              		.eabi_attribute 26, 1
+  11              		.eabi_attribute 30, 1
+  12              		.eabi_attribute 34, 1
+  13              		.eabi_attribute 18, 4
+  14              		.file	"z_qflash_W25QXXX_test.c"
+  15              		.text
+  16              	.Ltext0:
+  17              		.cfi_sections	.debug_frame
+  18              		.file 1 "Core/Src/z_qflash_W25QXXX_test.c"
+  19              		.section	.text.BlinkIt,"ax",%progbits
+  20              		.align	1
+  21              		.global	BlinkIt
+  22              		.syntax unified
+  23              		.thumb
+  24              		.thumb_func
+  26              	BlinkIt:
+  27              	.LVL0:
+  28              	.LFB147:
+   1:Core/Src/z_qflash_W25QXXX_test.c **** /*
+   2:Core/Src/z_qflash_W25QXXX_test.c ****  * z_qflash_W25QXXX_test.c
+   3:Core/Src/z_qflash_W25QXXX_test.c ****  *
+   4:Core/Src/z_qflash_W25QXXX_test.c ****  *  Created on: Oct 10, 2024
+   5:Core/Src/z_qflash_W25QXXX_test.c ****  *      Author: mauro
+   6:Core/Src/z_qflash_W25QXXX_test.c ****  */
+   7:Core/Src/z_qflash_W25QXXX_test.c **** 
+   8:Core/Src/z_qflash_W25QXXX_test.c **** 
+   9:Core/Src/z_qflash_W25QXXX_test.c **** #include "main.h"
+  10:Core/Src/z_qflash_W25QXXX_test.c **** #include <string.h>
+  11:Core/Src/z_qflash_W25QXXX_test.c **** #include <stdio.h>
+  12:Core/Src/z_qflash_W25QXXX_test.c **** 
+  13:Core/Src/z_qflash_W25QXXX_test.c **** extern QSPI_HandleTypeDef FLASH_QSPI_PORT;
+  14:Core/Src/z_qflash_W25QXXX_test.c **** 
+  15:Core/Src/z_qflash_W25QXXX_test.c **** uint32_t	ttimes[20][4]={0};
+  16:Core/Src/z_qflash_W25QXXX_test.c **** 
+  17:Core/Src/z_qflash_W25QXXX_test.c **** 
+  18:Core/Src/z_qflash_W25QXXX_test.c **** 
+  19:Core/Src/z_qflash_W25QXXX_test.c **** void BlinkIt(HAL_StatusTypeDef flashOK) {
+  29              		.loc 1 19 41 view -0
+  30              		.cfi_startproc
+  31              		@ args = 0, pretend = 0, frame = 0
+  32              		@ frame_needed = 0, uses_anonymous_args = 0
+  33              		.loc 1 19 41 is_stmt 0 view .LVU1
+  34 0000 10B5     		push	{r4, lr}
+  35              	.LCFI0:
+  36              		.cfi_def_cfa_offset 8
+  37              		.cfi_offset 4, -8
+  38              		.cfi_offset 14, -4
+  39 0002 0446     		mov	r4, r0
+ARM GAS  /tmp/ccUyhhg2.s 			page 2
+
+
+  20:Core/Src/z_qflash_W25QXXX_test.c **** 	  // blinking indicating end of test: triple-blink if test==ok
+  21:Core/Src/z_qflash_W25QXXX_test.c **** 	  HAL_GPIO_WritePin(USER_LED_GPIO_Port, USER_LED_Pin, GPIO_PIN_SET);
+  40              		.loc 1 21 4 is_stmt 1 view .LVU2
+  41 0004 0122     		movs	r2, #1
+  42 0006 1021     		movs	r1, #16
+  43 0008 1948     		ldr	r0, .L5
+  44              	.LVL1:
+  45              		.loc 1 21 4 is_stmt 0 view .LVU3
+  46 000a FFF7FEFF 		bl	HAL_GPIO_WritePin
+  47              	.LVL2:
+  22:Core/Src/z_qflash_W25QXXX_test.c **** 	  HAL_Delay(100);
+  48              		.loc 1 22 4 is_stmt 1 view .LVU4
+  49 000e 6420     		movs	r0, #100
+  50 0010 FFF7FEFF 		bl	HAL_Delay
+  51              	.LVL3:
+  23:Core/Src/z_qflash_W25QXXX_test.c **** 	  if (flashOK) {
+  52              		.loc 1 23 4 view .LVU5
+  53              		.loc 1 23 7 is_stmt 0 view .LVU6
+  54 0014 4CB9     		cbnz	r4, .L4
+  55              	.LVL4:
+  56              	.L2:
+  24:Core/Src/z_qflash_W25QXXX_test.c **** 		  HAL_GPIO_WritePin(USER_LED_GPIO_Port, USER_LED_Pin, GPIO_PIN_RESET);
+  25:Core/Src/z_qflash_W25QXXX_test.c **** 		  HAL_Delay(200);
+  26:Core/Src/z_qflash_W25QXXX_test.c **** 		  HAL_GPIO_WritePin(USER_LED_GPIO_Port, USER_LED_Pin, GPIO_PIN_SET);
+  27:Core/Src/z_qflash_W25QXXX_test.c **** 		  HAL_Delay(100);
+  28:Core/Src/z_qflash_W25QXXX_test.c **** 		  HAL_GPIO_WritePin(USER_LED_GPIO_Port, USER_LED_Pin, GPIO_PIN_RESET);
+  29:Core/Src/z_qflash_W25QXXX_test.c **** 		  HAL_Delay(200);
+  30:Core/Src/z_qflash_W25QXXX_test.c **** 		  HAL_GPIO_WritePin(USER_LED_GPIO_Port, USER_LED_Pin, GPIO_PIN_SET);
+  31:Core/Src/z_qflash_W25QXXX_test.c **** 		  HAL_Delay(100);
+  32:Core/Src/z_qflash_W25QXXX_test.c **** 	  }
+  33:Core/Src/z_qflash_W25QXXX_test.c **** 	  HAL_GPIO_WritePin(USER_LED_GPIO_Port, USER_LED_Pin, GPIO_PIN_RESET);
+  57              		.loc 1 33 4 is_stmt 1 view .LVU7
+  58 0016 0022     		movs	r2, #0
+  59 0018 1021     		movs	r1, #16
+  60 001a 1548     		ldr	r0, .L5
+  61 001c FFF7FEFF 		bl	HAL_GPIO_WritePin
+  62              	.LVL5:
+  34:Core/Src/z_qflash_W25QXXX_test.c **** 	  HAL_Delay(500);
+  63              		.loc 1 34 4 view .LVU8
+  64 0020 4FF4FA70 		mov	r0, #500
+  65 0024 FFF7FEFF 		bl	HAL_Delay
+  66              	.LVL6:
+  35:Core/Src/z_qflash_W25QXXX_test.c **** 
+  36:Core/Src/z_qflash_W25QXXX_test.c **** }
+  67              		.loc 1 36 1 is_stmt 0 view .LVU9
+  68 0028 10BD     		pop	{r4, pc}
+  69              	.L4:
+  24:Core/Src/z_qflash_W25QXXX_test.c **** 		  HAL_Delay(200);
+  70              		.loc 1 24 5 is_stmt 1 view .LVU10
+  71 002a 114C     		ldr	r4, .L5
+  72 002c 0022     		movs	r2, #0
+  73 002e 1021     		movs	r1, #16
+  74 0030 2046     		mov	r0, r4
+  75 0032 FFF7FEFF 		bl	HAL_GPIO_WritePin
+  76              	.LVL7:
+  25:Core/Src/z_qflash_W25QXXX_test.c **** 		  HAL_GPIO_WritePin(USER_LED_GPIO_Port, USER_LED_Pin, GPIO_PIN_SET);
+  77              		.loc 1 25 5 view .LVU11
+ARM GAS  /tmp/ccUyhhg2.s 			page 3
+
+
+  78 0036 C820     		movs	r0, #200
+  79 0038 FFF7FEFF 		bl	HAL_Delay
+  80              	.LVL8:
+  26:Core/Src/z_qflash_W25QXXX_test.c **** 		  HAL_Delay(100);
+  81              		.loc 1 26 5 view .LVU12
+  82 003c 0122     		movs	r2, #1
+  83 003e 1021     		movs	r1, #16
+  84 0040 2046     		mov	r0, r4
+  85 0042 FFF7FEFF 		bl	HAL_GPIO_WritePin
+  86              	.LVL9:
+  27:Core/Src/z_qflash_W25QXXX_test.c **** 		  HAL_GPIO_WritePin(USER_LED_GPIO_Port, USER_LED_Pin, GPIO_PIN_RESET);
+  87              		.loc 1 27 5 view .LVU13
+  88 0046 6420     		movs	r0, #100
+  89 0048 FFF7FEFF 		bl	HAL_Delay
+  90              	.LVL10:
+  28:Core/Src/z_qflash_W25QXXX_test.c **** 		  HAL_Delay(200);
+  91              		.loc 1 28 5 view .LVU14
+  92 004c 0022     		movs	r2, #0
+  93 004e 1021     		movs	r1, #16
+  94 0050 2046     		mov	r0, r4
+  95 0052 FFF7FEFF 		bl	HAL_GPIO_WritePin
+  96              	.LVL11:
+  29:Core/Src/z_qflash_W25QXXX_test.c **** 		  HAL_GPIO_WritePin(USER_LED_GPIO_Port, USER_LED_Pin, GPIO_PIN_SET);
+  97              		.loc 1 29 5 view .LVU15
+  98 0056 C820     		movs	r0, #200
+  99 0058 FFF7FEFF 		bl	HAL_Delay
+ 100              	.LVL12:
+  30:Core/Src/z_qflash_W25QXXX_test.c **** 		  HAL_Delay(100);
+ 101              		.loc 1 30 5 view .LVU16
+ 102 005c 0122     		movs	r2, #1
+ 103 005e 1021     		movs	r1, #16
+ 104 0060 2046     		mov	r0, r4
+ 105 0062 FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 106              	.LVL13:
+  31:Core/Src/z_qflash_W25QXXX_test.c **** 	  }
+ 107              		.loc 1 31 5 view .LVU17
+ 108 0066 6420     		movs	r0, #100
+ 109 0068 FFF7FEFF 		bl	HAL_Delay
+ 110              	.LVL14:
+ 111 006c D3E7     		b	.L2
+ 112              	.L6:
+ 113 006e 00BF     		.align	2
+ 114              	.L5:
+ 115 0070 00100258 		.word	1476530176
+ 116              		.cfi_endproc
+ 117              	.LFE147:
+ 119              		.section	.text.TriggerLogicAnalyzer,"ax",%progbits
+ 120              		.align	1
+ 121              		.global	TriggerLogicAnalyzer
+ 122              		.syntax unified
+ 123              		.thumb
+ 124              		.thumb_func
+ 126              	TriggerLogicAnalyzer:
+ 127              	.LFB148:
+  37:Core/Src/z_qflash_W25QXXX_test.c **** 
+  38:Core/Src/z_qflash_W25QXXX_test.c **** 
+  39:Core/Src/z_qflash_W25QXXX_test.c **** 
+ARM GAS  /tmp/ccUyhhg2.s 			page 4
+
+
+  40:Core/Src/z_qflash_W25QXXX_test.c **** 
+  41:Core/Src/z_qflash_W25QXXX_test.c **** void TriggerLogicAnalyzer(){
+ 128              		.loc 1 41 28 view -0
+ 129              		.cfi_startproc
+ 130              		@ args = 0, pretend = 0, frame = 0
+ 131              		@ frame_needed = 0, uses_anonymous_args = 0
+ 132 0000 38B5     		push	{r3, r4, r5, lr}
+ 133              	.LCFI1:
+ 134              		.cfi_def_cfa_offset 16
+ 135              		.cfi_offset 3, -16
+ 136              		.cfi_offset 4, -12
+ 137              		.cfi_offset 5, -8
+ 138              		.cfi_offset 14, -4
+  42:Core/Src/z_qflash_W25QXXX_test.c **** 	  for (uint8_t k=0;k<3;k++) {
+ 139              		.loc 1 42 4 view .LVU19
+ 140              	.LBB2:
+ 141              		.loc 1 42 9 view .LVU20
+ 142              	.LVL15:
+ 143              		.loc 1 42 17 is_stmt 0 view .LVU21
+ 144 0002 0024     		movs	r4, #0
+ 145              		.loc 1 42 4 view .LVU22
+ 146 0004 12E0     		b	.L8
+ 147              	.LVL16:
+ 148              	.L9:
+  43:Core/Src/z_qflash_W25QXXX_test.c **** 		  HAL_Delay(DELAY_TIME);
+ 149              		.loc 1 43 5 is_stmt 1 view .LVU23
+ 150 0006 3220     		movs	r0, #50
+ 151 0008 FFF7FEFF 		bl	HAL_Delay
+ 152              	.LVL17:
+  44:Core/Src/z_qflash_W25QXXX_test.c **** 		  HAL_GPIO_WritePin(TRIGGER_GPIO_Port,TRIGGER_Pin,GPIO_PIN_SET);
+ 153              		.loc 1 44 5 view .LVU24
+ 154 000c 094D     		ldr	r5, .L11
+ 155 000e 0122     		movs	r2, #1
+ 156 0010 0821     		movs	r1, #8
+ 157 0012 2846     		mov	r0, r5
+ 158 0014 FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 159              	.LVL18:
+  45:Core/Src/z_qflash_W25QXXX_test.c **** 		  HAL_Delay(DELAY_TIME);
+ 160              		.loc 1 45 5 view .LVU25
+ 161 0018 3220     		movs	r0, #50
+ 162 001a FFF7FEFF 		bl	HAL_Delay
+ 163              	.LVL19:
+  46:Core/Src/z_qflash_W25QXXX_test.c **** 		  HAL_GPIO_WritePin(TRIGGER_GPIO_Port,TRIGGER_Pin,GPIO_PIN_RESET);
+ 164              		.loc 1 46 5 view .LVU26
+ 165 001e 0022     		movs	r2, #0
+ 166 0020 0821     		movs	r1, #8
+ 167 0022 2846     		mov	r0, r5
+ 168 0024 FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 169              	.LVL20:
+  42:Core/Src/z_qflash_W25QXXX_test.c **** 		  HAL_Delay(DELAY_TIME);
+ 170              		.loc 1 42 26 discriminator 3 view .LVU27
+ 171 0028 0134     		adds	r4, r4, #1
+ 172              	.LVL21:
+  42:Core/Src/z_qflash_W25QXXX_test.c **** 		  HAL_Delay(DELAY_TIME);
+ 173              		.loc 1 42 26 is_stmt 0 discriminator 3 view .LVU28
+ 174 002a E4B2     		uxtb	r4, r4
+ 175              	.LVL22:
+ARM GAS  /tmp/ccUyhhg2.s 			page 5
+
+
+ 176              	.L8:
+  42:Core/Src/z_qflash_W25QXXX_test.c **** 		  HAL_Delay(DELAY_TIME);
+ 177              		.loc 1 42 22 is_stmt 1 discriminator 1 view .LVU29
+ 178 002c 022C     		cmp	r4, #2
+ 179 002e EAD9     		bls	.L9
+ 180              	.LBE2:
+  47:Core/Src/z_qflash_W25QXXX_test.c **** 	  }
+  48:Core/Src/z_qflash_W25QXXX_test.c **** }
+ 181              		.loc 1 48 1 is_stmt 0 view .LVU30
+ 182 0030 38BD     		pop	{r3, r4, r5, pc}
+ 183              	.LVL23:
+ 184              	.L12:
+ 185              		.loc 1 48 1 view .LVU31
+ 186 0032 00BF     		.align	2
+ 187              	.L11:
+ 188 0034 00100258 		.word	1476530176
+ 189              		.cfi_endproc
+ 190              	.LFE148:
+ 192              		.section	.rodata.SimpleReadingTest.str1.4,"aMS",%progbits,1
+ 193              		.align	2
+ 194              	.LC0:
+ 195 0000 20202020 		.ascii	"           \000"
+ 195      20202020 
+ 195      20202000 
+ 196              		.section	.text.SimpleReadingTest,"ax",%progbits
+ 197              		.align	1
+ 198              		.global	SimpleReadingTest
+ 199              		.syntax unified
+ 200              		.thumb
+ 201              		.thumb_func
+ 203              	SimpleReadingTest:
+ 204              	.LFB149:
+  49:Core/Src/z_qflash_W25QXXX_test.c **** 
+  50:Core/Src/z_qflash_W25QXXX_test.c **** 
+  51:Core/Src/z_qflash_W25QXXX_test.c **** 
+  52:Core/Src/z_qflash_W25QXXX_test.c **** 
+  53:Core/Src/z_qflash_W25QXXX_test.c **** #ifndef FLASH_QSPI_MEMORY_MAPPED
+  54:Core/Src/z_qflash_W25QXXX_test.c **** // various test functions needing indirect mode
+  55:Core/Src/z_qflash_W25QXXX_test.c **** 
+  56:Core/Src/z_qflash_W25QXXX_test.c **** void SimpleReadingTest(){
+ 205              		.loc 1 56 25 is_stmt 1 view -0
+ 206              		.cfi_startproc
+ 207              		@ Volatile: function does not return.
+ 208              		@ args = 0, pretend = 0, frame = 24
+ 209              		@ frame_needed = 0, uses_anonymous_args = 0
+ 210 0000 00B5     		push	{lr}
+ 211              	.LCFI2:
+ 212              		.cfi_def_cfa_offset 4
+ 213              		.cfi_offset 14, -4
+ 214 0002 87B0     		sub	sp, sp, #28
+ 215              	.LCFI3:
+ 216              		.cfi_def_cfa_offset 32
+  57:Core/Src/z_qflash_W25QXXX_test.c **** 	/*
+  58:Core/Src/z_qflash_W25QXXX_test.c **** 	 * lettura di una stringa precedentemente registrata in dual flash mode
+  59:Core/Src/z_qflash_W25QXXX_test.c **** 	 *
+  60:Core/Src/z_qflash_W25QXXX_test.c **** 	*/
+  61:Core/Src/z_qflash_W25QXXX_test.c **** 	  uint8_t mess[20];
+ARM GAS  /tmp/ccUyhhg2.s 			page 6
+
+
+ 217              		.loc 1 61 4 view .LVU33
+  62:Core/Src/z_qflash_W25QXXX_test.c **** 
+  63:Core/Src/z_qflash_W25QXXX_test.c **** 	  strcpy((char*)mess,"           ");
+ 218              		.loc 1 63 4 view .LVU34
+ 219 0004 01AC     		add	r4, sp, #4
+ 220 0006 144D     		ldr	r5, .L16
+ 221 0008 95E80700 		ldm	r5, {r0, r1, r2}
+ 222 000c 84E80700 		stm	r4, {r0, r1, r2}
+  64:Core/Src/z_qflash_W25QXXX_test.c **** 	  QFlash_Read(0,mess,12);										//just read, no test
+ 223              		.loc 1 64 4 view .LVU35
+ 224 0010 0C22     		movs	r2, #12
+ 225 0012 2146     		mov	r1, r4
+ 226 0014 0020     		movs	r0, #0
+ 227 0016 FFF7FEFF 		bl	QFlash_Read
+ 228              	.LVL24:
+  65:Core/Src/z_qflash_W25QXXX_test.c **** 
+  66:Core/Src/z_qflash_W25QXXX_test.c **** 	  strcpy((char*)mess,"           ");
+ 229              		.loc 1 66 4 view .LVU36
+ 230 001a 95E80700 		ldm	r5, {r0, r1, r2}
+ 231 001e 84E80700 		stm	r4, {r0, r1, r2}
+  67:Core/Src/z_qflash_W25QXXX_test.c **** 	  QFlash_Read(0X7ffa,mess,12);										//just read, no test
+ 232              		.loc 1 67 4 view .LVU37
+ 233 0022 0C22     		movs	r2, #12
+ 234 0024 2146     		mov	r1, r4
+ 235 0026 47F6FA70 		movw	r0, #32762
+ 236 002a FFF7FEFF 		bl	QFlash_Read
+ 237              	.LVL25:
+  68:Core/Src/z_qflash_W25QXXX_test.c **** 
+  69:Core/Src/z_qflash_W25QXXX_test.c **** 	  strcpy((char*)mess,"           ");
+ 238              		.loc 1 69 4 view .LVU38
+ 239 002e 95E80700 		ldm	r5, {r0, r1, r2}
+ 240 0032 84E80700 		stm	r4, {r0, r1, r2}
+  70:Core/Src/z_qflash_W25QXXX_test.c **** 	  QFlash_Read(0Xfffa,mess,12);										//just read, no test
+ 241              		.loc 1 70 4 view .LVU39
+ 242 0036 0C22     		movs	r2, #12
+ 243 0038 2146     		mov	r1, r4
+ 244 003a 4FF6FA70 		movw	r0, #65530
+ 245 003e FFF7FEFF 		bl	QFlash_Read
+ 246              	.LVL26:
+  71:Core/Src/z_qflash_W25QXXX_test.c **** 
+  72:Core/Src/z_qflash_W25QXXX_test.c **** 	  strcpy((char*)mess,"           ");
+ 247              		.loc 1 72 4 view .LVU40
+ 248 0042 95E80700 		ldm	r5, {r0, r1, r2}
+ 249 0046 84E80700 		stm	r4, {r0, r1, r2}
+  73:Core/Src/z_qflash_W25QXXX_test.c **** 	  QFlash_Read(0X1fffa,mess,12);										//just read, no test
+ 250              		.loc 1 73 4 view .LVU41
+ 251 004a 0C22     		movs	r2, #12
+ 252 004c 2146     		mov	r1, r4
+ 253 004e 0348     		ldr	r0, .L16+4
+ 254 0050 FFF7FEFF 		bl	QFlash_Read
+ 255              	.LVL27:
+ 256              	.L14:
+  74:Core/Src/z_qflash_W25QXXX_test.c **** 
+  75:Core/Src/z_qflash_W25QXXX_test.c **** 	  while (1) {};
+ 257              		.loc 1 75 4 view .LVU42
+ 258              		.loc 1 75 15 view .LVU43
+ 259              		.loc 1 75 10 view .LVU44
+ARM GAS  /tmp/ccUyhhg2.s 			page 7
+
+
+ 260 0054 FEE7     		b	.L14
+ 261              	.L17:
+ 262 0056 00BF     		.align	2
+ 263              	.L16:
+ 264 0058 00000000 		.word	.LC0
+ 265 005c FAFF0100 		.word	131066
+ 266              		.cfi_endproc
+ 267              	.LFE149:
+ 269              		.section	.text.TestSR1Setting,"ax",%progbits
+ 270              		.align	1
+ 271              		.global	TestSR1Setting
+ 272              		.syntax unified
+ 273              		.thumb
+ 274              		.thumb_func
+ 276              	TestSR1Setting:
+ 277              	.LFB150:
+  76:Core/Src/z_qflash_W25QXXX_test.c **** 
+  77:Core/Src/z_qflash_W25QXXX_test.c **** }
+  78:Core/Src/z_qflash_W25QXXX_test.c **** 
+  79:Core/Src/z_qflash_W25QXXX_test.c **** 
+  80:Core/Src/z_qflash_W25QXXX_test.c **** HAL_StatusTypeDef TestSR1Setting (){
+ 278              		.loc 1 80 36 view -0
+ 279              		.cfi_startproc
+ 280              		@ args = 0, pretend = 0, frame = 8
+ 281              		@ frame_needed = 0, uses_anonymous_args = 0
+ 282 0000 10B5     		push	{r4, lr}
+ 283              	.LCFI4:
+ 284              		.cfi_def_cfa_offset 8
+ 285              		.cfi_offset 4, -8
+ 286              		.cfi_offset 14, -4
+ 287 0002 82B0     		sub	sp, sp, #8
+ 288              	.LCFI5:
+ 289              		.cfi_def_cfa_offset 16
+  81:Core/Src/z_qflash_W25QXXX_test.c **** 	uint8_t sr1=4;
+ 290              		.loc 1 81 2 view .LVU46
+ 291              		.loc 1 81 10 is_stmt 0 view .LVU47
+ 292 0004 0423     		movs	r3, #4
+ 293 0006 8DF80730 		strb	r3, [sp, #7]
+  82:Core/Src/z_qflash_W25QXXX_test.c **** 	HAL_StatusTypeDef result=HAL_OK;
+ 294              		.loc 1 82 2 is_stmt 1 view .LVU48
+ 295              	.LVL28:
+  83:Core/Src/z_qflash_W25QXXX_test.c **** 
+  84:Core/Src/z_qflash_W25QXXX_test.c **** 	//test reading/ewriting SR1
+  85:Core/Src/z_qflash_W25QXXX_test.c **** 
+  86:Core/Src/z_qflash_W25QXXX_test.c **** 	QFlash_ReadSR1(&sr1);
+ 296              		.loc 1 86 2 view .LVU49
+ 297 000a 0DF10700 		add	r0, sp, #7
+ 298 000e FFF7FEFF 		bl	QFlash_ReadSR1
+ 299              	.LVL29:
+  87:Core/Src/z_qflash_W25QXXX_test.c **** 	if (!(sr1==0))
+ 300              		.loc 1 87 2 view .LVU50
+ 301              		.loc 1 87 6 is_stmt 0 view .LVU51
+ 302 0012 9DF80740 		ldrb	r4, [sp, #7]	@ zero_extendqisi2
+ 303              		.loc 1 87 5 view .LVU52
+ 304 0016 04B1     		cbz	r4, .L19
+  88:Core/Src/z_qflash_W25QXXX_test.c **** 		result=HAL_ERROR;
+ 305              		.loc 1 88 9 view .LVU53
+ARM GAS  /tmp/ccUyhhg2.s 			page 8
+
+
+ 306 0018 0124     		movs	r4, #1
+ 307              	.L19:
+ 308              	.LVL30:
+  89:Core/Src/z_qflash_W25QXXX_test.c **** 	QFlash_WriteEnable();
+ 309              		.loc 1 89 2 is_stmt 1 view .LVU54
+ 310 001a FFF7FEFF 		bl	QFlash_WriteEnable
+ 311              	.LVL31:
+  90:Core/Src/z_qflash_W25QXXX_test.c **** 	HAL_Delay(1);
+ 312              		.loc 1 90 2 view .LVU55
+ 313 001e 0120     		movs	r0, #1
+ 314 0020 FFF7FEFF 		bl	HAL_Delay
+ 315              	.LVL32:
+  91:Core/Src/z_qflash_W25QXXX_test.c **** 	QFlash_ReadSR1(&sr1);
+ 316              		.loc 1 91 2 view .LVU56
+ 317 0024 0DF10700 		add	r0, sp, #7
+ 318 0028 FFF7FEFF 		bl	QFlash_ReadSR1
+ 319              	.LVL33:
+  92:Core/Src/z_qflash_W25QXXX_test.c **** 	if (!(sr1==2))
+ 320              		.loc 1 92 2 view .LVU57
+ 321              		.loc 1 92 6 is_stmt 0 view .LVU58
+ 322 002c 9DF80730 		ldrb	r3, [sp, #7]	@ zero_extendqisi2
+ 323              		.loc 1 92 5 view .LVU59
+ 324 0030 022B     		cmp	r3, #2
+ 325 0032 00D0     		beq	.L20
+  93:Core/Src/z_qflash_W25QXXX_test.c **** 		result=HAL_ERROR;
+ 326              		.loc 1 93 9 view .LVU60
+ 327 0034 0124     		movs	r4, #1
+ 328              	.LVL34:
+ 329              	.L20:
+  94:Core/Src/z_qflash_W25QXXX_test.c **** 	QFlash_WriteDisable();
+ 330              		.loc 1 94 2 is_stmt 1 view .LVU61
+ 331 0036 FFF7FEFF 		bl	QFlash_WriteDisable
+ 332              	.LVL35:
+  95:Core/Src/z_qflash_W25QXXX_test.c **** 	HAL_Delay(1);
+ 333              		.loc 1 95 2 view .LVU62
+ 334 003a 0120     		movs	r0, #1
+ 335 003c FFF7FEFF 		bl	HAL_Delay
+ 336              	.LVL36:
+  96:Core/Src/z_qflash_W25QXXX_test.c **** 	QFlash_ReadSR1(&sr1);
+ 337              		.loc 1 96 2 view .LVU63
+ 338 0040 0DF10700 		add	r0, sp, #7
+ 339 0044 FFF7FEFF 		bl	QFlash_ReadSR1
+ 340              	.LVL37:
+  97:Core/Src/z_qflash_W25QXXX_test.c **** 	if (!(sr1==0))
+ 341              		.loc 1 97 2 view .LVU64
+ 342              		.loc 1 97 6 is_stmt 0 view .LVU65
+ 343 0048 9DF80730 		ldrb	r3, [sp, #7]	@ zero_extendqisi2
+ 344              		.loc 1 97 5 view .LVU66
+ 345 004c 03B1     		cbz	r3, .L21
+  98:Core/Src/z_qflash_W25QXXX_test.c **** 		result=HAL_ERROR;
+ 346              		.loc 1 98 9 view .LVU67
+ 347 004e 0124     		movs	r4, #1
+ 348              	.LVL38:
+ 349              	.L21:
+  99:Core/Src/z_qflash_W25QXXX_test.c **** 
+ 100:Core/Src/z_qflash_W25QXXX_test.c **** 	return result;
+ 350              		.loc 1 100 2 is_stmt 1 view .LVU68
+ARM GAS  /tmp/ccUyhhg2.s 			page 9
+
+
+ 101:Core/Src/z_qflash_W25QXXX_test.c **** }
+ 351              		.loc 1 101 1 is_stmt 0 view .LVU69
+ 352 0050 2046     		mov	r0, r4
+ 353 0052 02B0     		add	sp, sp, #8
+ 354              	.LCFI6:
+ 355              		.cfi_def_cfa_offset 8
+ 356              		@ sp needed
+ 357 0054 10BD     		pop	{r4, pc}
+ 358              		.loc 1 101 1 view .LVU70
+ 359              		.cfi_endproc
+ 360              	.LFE150:
+ 362              		.section	.text.TestSR3Setting,"ax",%progbits
+ 363              		.align	1
+ 364              		.global	TestSR3Setting
+ 365              		.syntax unified
+ 366              		.thumb
+ 367              		.thumb_func
+ 369              	TestSR3Setting:
+ 370              	.LFB151:
+ 102:Core/Src/z_qflash_W25QXXX_test.c **** 
+ 103:Core/Src/z_qflash_W25QXXX_test.c **** void TestSR3Setting (){
+ 371              		.loc 1 103 23 is_stmt 1 view -0
+ 372              		.cfi_startproc
+ 373              		@ args = 0, pretend = 0, frame = 8
+ 374              		@ frame_needed = 0, uses_anonymous_args = 0
+ 375 0000 30B5     		push	{r4, r5, lr}
+ 376              	.LCFI7:
+ 377              		.cfi_def_cfa_offset 12
+ 378              		.cfi_offset 4, -12
+ 379              		.cfi_offset 5, -8
+ 380              		.cfi_offset 14, -4
+ 381 0002 83B0     		sub	sp, sp, #12
+ 382              	.LCFI8:
+ 383              		.cfi_def_cfa_offset 24
+ 104:Core/Src/z_qflash_W25QXXX_test.c **** 	uint8_t sr3=0;
+ 384              		.loc 1 104 2 view .LVU72
+ 385              		.loc 1 104 10 is_stmt 0 view .LVU73
+ 386 0004 0025     		movs	r5, #0
+ 387 0006 8DF80750 		strb	r5, [sp, #7]
+ 105:Core/Src/z_qflash_W25QXXX_test.c **** 
+ 106:Core/Src/z_qflash_W25QXXX_test.c **** 	QFlash_ReadSR3(&sr3);
+ 388              		.loc 1 106 2 is_stmt 1 view .LVU74
+ 389 000a 0DF10700 		add	r0, sp, #7
+ 390 000e FFF7FEFF 		bl	QFlash_ReadSR3
+ 391              	.LVL39:
+ 107:Core/Src/z_qflash_W25QXXX_test.c **** 	HAL_Delay(1);
+ 392              		.loc 1 107 2 view .LVU75
+ 393 0012 0120     		movs	r0, #1
+ 394 0014 FFF7FEFF 		bl	HAL_Delay
+ 395              	.LVL40:
+ 108:Core/Src/z_qflash_W25QXXX_test.c **** 
+ 109:Core/Src/z_qflash_W25QXXX_test.c **** 	sr3=0xFF;
+ 396              		.loc 1 109 2 view .LVU76
+ 397              		.loc 1 109 5 is_stmt 0 view .LVU77
+ 398 0018 FF24     		movs	r4, #255
+ 399 001a 8DF80740 		strb	r4, [sp, #7]
+ 110:Core/Src/z_qflash_W25QXXX_test.c **** 	QFlash_ReadSR3(&sr3);
+ARM GAS  /tmp/ccUyhhg2.s 			page 10
+
+
+ 400              		.loc 1 110 2 is_stmt 1 view .LVU78
+ 401 001e 0DF10700 		add	r0, sp, #7
+ 402 0022 FFF7FEFF 		bl	QFlash_ReadSR3
+ 403              	.LVL41:
+ 111:Core/Src/z_qflash_W25QXXX_test.c **** 	HAL_Delay(1);
+ 404              		.loc 1 111 2 view .LVU79
+ 405 0026 0120     		movs	r0, #1
+ 406 0028 FFF7FEFF 		bl	HAL_Delay
+ 407              	.LVL42:
+ 112:Core/Src/z_qflash_W25QXXX_test.c **** 
+ 113:Core/Src/z_qflash_W25QXXX_test.c **** 	QFlash_WriteEnable();
+ 408              		.loc 1 113 2 view .LVU80
+ 409 002c FFF7FEFF 		bl	QFlash_WriteEnable
+ 410              	.LVL43:
+ 114:Core/Src/z_qflash_W25QXXX_test.c **** 	HAL_Delay(1);
+ 411              		.loc 1 114 2 view .LVU81
+ 412 0030 0120     		movs	r0, #1
+ 413 0032 FFF7FEFF 		bl	HAL_Delay
+ 414              	.LVL44:
+ 115:Core/Src/z_qflash_W25QXXX_test.c **** 
+ 116:Core/Src/z_qflash_W25QXXX_test.c **** 	sr3&=0x9F;
+ 415              		.loc 1 116 2 view .LVU82
+ 416              		.loc 1 116 5 is_stmt 0 view .LVU83
+ 417 0036 9DF80700 		ldrb	r0, [sp, #7]	@ zero_extendqisi2
+ 418 003a 00F09F00 		and	r0, r0, #159
+ 419 003e 8DF80700 		strb	r0, [sp, #7]
+ 117:Core/Src/z_qflash_W25QXXX_test.c **** 	sr3=QFlash_WriteSR3(sr3);
+ 420              		.loc 1 117 2 is_stmt 1 view .LVU84
+ 421              		.loc 1 117 6 is_stmt 0 view .LVU85
+ 422 0042 FFF7FEFF 		bl	QFlash_WriteSR3
+ 423              	.LVL45:
+ 424              		.loc 1 117 5 discriminator 1 view .LVU86
+ 425 0046 8DF80700 		strb	r0, [sp, #7]
+ 118:Core/Src/z_qflash_W25QXXX_test.c **** 	HAL_Delay(1);
+ 426              		.loc 1 118 2 is_stmt 1 view .LVU87
+ 427 004a 0120     		movs	r0, #1
+ 428 004c FFF7FEFF 		bl	HAL_Delay
+ 429              	.LVL46:
+ 119:Core/Src/z_qflash_W25QXXX_test.c **** 
+ 120:Core/Src/z_qflash_W25QXXX_test.c **** 	sr3=0;
+ 430              		.loc 1 120 2 view .LVU88
+ 431              		.loc 1 120 5 is_stmt 0 view .LVU89
+ 432 0050 8DF80750 		strb	r5, [sp, #7]
+ 121:Core/Src/z_qflash_W25QXXX_test.c **** 	QFlash_ReadSR3(&sr3);
+ 433              		.loc 1 121 2 is_stmt 1 view .LVU90
+ 434 0054 0DF10700 		add	r0, sp, #7
+ 435 0058 FFF7FEFF 		bl	QFlash_ReadSR3
+ 436              	.LVL47:
+ 122:Core/Src/z_qflash_W25QXXX_test.c **** 	HAL_Delay(1);
+ 437              		.loc 1 122 2 view .LVU91
+ 438 005c 0120     		movs	r0, #1
+ 439 005e FFF7FEFF 		bl	HAL_Delay
+ 440              	.LVL48:
+ 123:Core/Src/z_qflash_W25QXXX_test.c **** 
+ 124:Core/Src/z_qflash_W25QXXX_test.c **** 	sr3=0xFF;
+ 441              		.loc 1 124 2 view .LVU92
+ 442              		.loc 1 124 5 is_stmt 0 view .LVU93
+ARM GAS  /tmp/ccUyhhg2.s 			page 11
+
+
+ 443 0062 8DF80740 		strb	r4, [sp, #7]
+ 125:Core/Src/z_qflash_W25QXXX_test.c **** 	QFlash_ReadSR3(&sr3);
+ 444              		.loc 1 125 2 is_stmt 1 view .LVU94
+ 445 0066 0DF10700 		add	r0, sp, #7
+ 446 006a FFF7FEFF 		bl	QFlash_ReadSR3
+ 447              	.LVL49:
+ 126:Core/Src/z_qflash_W25QXXX_test.c **** 	HAL_Delay(1);
+ 448              		.loc 1 126 2 view .LVU95
+ 449 006e 0120     		movs	r0, #1
+ 450 0070 FFF7FEFF 		bl	HAL_Delay
+ 451              	.LVL50:
+ 127:Core/Src/z_qflash_W25QXXX_test.c **** 
+ 128:Core/Src/z_qflash_W25QXXX_test.c **** }
+ 452              		.loc 1 128 1 is_stmt 0 view .LVU96
+ 453 0074 03B0     		add	sp, sp, #12
+ 454              	.LCFI9:
+ 455              		.cfi_def_cfa_offset 12
+ 456              		@ sp needed
+ 457 0076 30BD     		pop	{r4, r5, pc}
+ 458              		.cfi_endproc
+ 459              	.LFE151:
+ 461              		.section	.text.TestQESetting,"ax",%progbits
+ 462              		.align	1
+ 463              		.global	TestQESetting
+ 464              		.syntax unified
+ 465              		.thumb
+ 466              		.thumb_func
+ 468              	TestQESetting:
+ 469              	.LFB152:
+ 129:Core/Src/z_qflash_W25QXXX_test.c **** 
+ 130:Core/Src/z_qflash_W25QXXX_test.c **** 
+ 131:Core/Src/z_qflash_W25QXXX_test.c **** 
+ 132:Core/Src/z_qflash_W25QXXX_test.c **** void TestQESetting (){
+ 470              		.loc 1 132 22 is_stmt 1 view -0
+ 471              		.cfi_startproc
+ 472              		@ args = 0, pretend = 0, frame = 8
+ 473              		@ frame_needed = 0, uses_anonymous_args = 0
+ 474 0000 10B5     		push	{r4, lr}
+ 475              	.LCFI10:
+ 476              		.cfi_def_cfa_offset 8
+ 477              		.cfi_offset 4, -8
+ 478              		.cfi_offset 14, -4
+ 479 0002 82B0     		sub	sp, sp, #8
+ 480              	.LCFI11:
+ 481              		.cfi_def_cfa_offset 16
+ 133:Core/Src/z_qflash_W25QXXX_test.c **** uint8_t sr2;
+ 482              		.loc 1 133 1 view .LVU98
+ 134:Core/Src/z_qflash_W25QXXX_test.c **** 
+ 135:Core/Src/z_qflash_W25QXXX_test.c **** 	HAL_Delay(1);
+ 483              		.loc 1 135 2 view .LVU99
+ 484 0004 0120     		movs	r0, #1
+ 485 0006 FFF7FEFF 		bl	HAL_Delay
+ 486              	.LVL51:
+ 136:Core/Src/z_qflash_W25QXXX_test.c **** 	sr2=0xFF;
+ 487              		.loc 1 136 2 view .LVU100
+ 488              		.loc 1 136 5 is_stmt 0 view .LVU101
+ 489 000a FF24     		movs	r4, #255
+ARM GAS  /tmp/ccUyhhg2.s 			page 12
+
+
+ 490 000c 8DF80740 		strb	r4, [sp, #7]
+ 137:Core/Src/z_qflash_W25QXXX_test.c **** 	QFlash_ReadSR2(&sr2);
+ 491              		.loc 1 137 2 is_stmt 1 view .LVU102
+ 492 0010 0DF10700 		add	r0, sp, #7
+ 493 0014 FFF7FEFF 		bl	QFlash_ReadSR2
+ 494              	.LVL52:
+ 138:Core/Src/z_qflash_W25QXXX_test.c **** 	HAL_Delay(1);
+ 495              		.loc 1 138 2 view .LVU103
+ 496 0018 0120     		movs	r0, #1
+ 497 001a FFF7FEFF 		bl	HAL_Delay
+ 498              	.LVL53:
+ 139:Core/Src/z_qflash_W25QXXX_test.c **** 	QFlash_WriteEnable();
+ 499              		.loc 1 139 2 view .LVU104
+ 500 001e FFF7FEFF 		bl	QFlash_WriteEnable
+ 501              	.LVL54:
+ 140:Core/Src/z_qflash_W25QXXX_test.c **** 	HAL_Delay(1);
+ 502              		.loc 1 140 2 view .LVU105
+ 503 0022 0120     		movs	r0, #1
+ 504 0024 FFF7FEFF 		bl	HAL_Delay
+ 505              	.LVL55:
+ 141:Core/Src/z_qflash_W25QXXX_test.c **** 	sr2&=0xFD;
+ 506              		.loc 1 141 2 view .LVU106
+ 507              		.loc 1 141 5 is_stmt 0 view .LVU107
+ 508 0028 9DF80700 		ldrb	r0, [sp, #7]	@ zero_extendqisi2
+ 509 002c 00F0FD00 		and	r0, r0, #253
+ 510 0030 8DF80700 		strb	r0, [sp, #7]
+ 142:Core/Src/z_qflash_W25QXXX_test.c **** 	sr2=QFlash_WriteSR2(sr2);
+ 511              		.loc 1 142 2 is_stmt 1 view .LVU108
+ 512              		.loc 1 142 6 is_stmt 0 view .LVU109
+ 513 0034 FFF7FEFF 		bl	QFlash_WriteSR2
+ 514              	.LVL56:
+ 515              		.loc 1 142 5 discriminator 1 view .LVU110
+ 516 0038 8DF80700 		strb	r0, [sp, #7]
+ 143:Core/Src/z_qflash_W25QXXX_test.c **** 	HAL_Delay(1);
+ 517              		.loc 1 143 2 is_stmt 1 view .LVU111
+ 518 003c 0120     		movs	r0, #1
+ 519 003e FFF7FEFF 		bl	HAL_Delay
+ 520              	.LVL57:
+ 144:Core/Src/z_qflash_W25QXXX_test.c **** 	sr2=0xFF;
+ 521              		.loc 1 144 2 view .LVU112
+ 522              		.loc 1 144 5 is_stmt 0 view .LVU113
+ 523 0042 8DF80740 		strb	r4, [sp, #7]
+ 145:Core/Src/z_qflash_W25QXXX_test.c **** 	QFlash_ReadSR2(&sr2);
+ 524              		.loc 1 145 2 is_stmt 1 view .LVU114
+ 525 0046 0DF10700 		add	r0, sp, #7
+ 526 004a FFF7FEFF 		bl	QFlash_ReadSR2
+ 527              	.LVL58:
+ 146:Core/Src/z_qflash_W25QXXX_test.c **** 	HAL_Delay(1);
+ 528              		.loc 1 146 2 view .LVU115
+ 529 004e 0120     		movs	r0, #1
+ 530 0050 FFF7FEFF 		bl	HAL_Delay
+ 531              	.LVL59:
+ 147:Core/Src/z_qflash_W25QXXX_test.c **** 	QFlash_WriteEnable();
+ 532              		.loc 1 147 2 view .LVU116
+ 533 0054 FFF7FEFF 		bl	QFlash_WriteEnable
+ 534              	.LVL60:
+ 148:Core/Src/z_qflash_W25QXXX_test.c **** 	HAL_Delay(1);
+ARM GAS  /tmp/ccUyhhg2.s 			page 13
+
+
+ 535              		.loc 1 148 2 view .LVU117
+ 536 0058 0120     		movs	r0, #1
+ 537 005a FFF7FEFF 		bl	HAL_Delay
+ 538              	.LVL61:
+ 149:Core/Src/z_qflash_W25QXXX_test.c **** 	sr2|=0x02;
+ 539              		.loc 1 149 2 view .LVU118
+ 540              		.loc 1 149 5 is_stmt 0 view .LVU119
+ 541 005e 9DF80700 		ldrb	r0, [sp, #7]	@ zero_extendqisi2
+ 542 0062 40F00200 		orr	r0, r0, #2
+ 543 0066 8DF80700 		strb	r0, [sp, #7]
+ 150:Core/Src/z_qflash_W25QXXX_test.c **** 	sr2=QFlash_WriteSR2(sr2);
+ 544              		.loc 1 150 2 is_stmt 1 view .LVU120
+ 545              		.loc 1 150 6 is_stmt 0 view .LVU121
+ 546 006a FFF7FEFF 		bl	QFlash_WriteSR2
+ 547              	.LVL62:
+ 548              		.loc 1 150 5 discriminator 1 view .LVU122
+ 549 006e 8DF80700 		strb	r0, [sp, #7]
+ 151:Core/Src/z_qflash_W25QXXX_test.c **** 	HAL_Delay(1);
+ 550              		.loc 1 151 2 is_stmt 1 view .LVU123
+ 551 0072 0120     		movs	r0, #1
+ 552 0074 FFF7FEFF 		bl	HAL_Delay
+ 553              	.LVL63:
+ 152:Core/Src/z_qflash_W25QXXX_test.c **** 	sr2=0xFF;
+ 554              		.loc 1 152 2 view .LVU124
+ 555              		.loc 1 152 5 is_stmt 0 view .LVU125
+ 556 0078 8DF80740 		strb	r4, [sp, #7]
+ 153:Core/Src/z_qflash_W25QXXX_test.c **** 	QFlash_ReadSR2(&sr2);
+ 557              		.loc 1 153 2 is_stmt 1 view .LVU126
+ 558 007c 0DF10700 		add	r0, sp, #7
+ 559 0080 FFF7FEFF 		bl	QFlash_ReadSR2
+ 560              	.LVL64:
+ 154:Core/Src/z_qflash_W25QXXX_test.c **** 	HAL_Delay(1);
+ 561              		.loc 1 154 2 view .LVU127
+ 562 0084 0120     		movs	r0, #1
+ 563 0086 FFF7FEFF 		bl	HAL_Delay
+ 564              	.LVL65:
+ 155:Core/Src/z_qflash_W25QXXX_test.c **** 
+ 156:Core/Src/z_qflash_W25QXXX_test.c **** 	HAL_Delay(1);
+ 565              		.loc 1 156 2 view .LVU128
+ 566 008a 0120     		movs	r0, #1
+ 567 008c FFF7FEFF 		bl	HAL_Delay
+ 568              	.LVL66:
+ 157:Core/Src/z_qflash_W25QXXX_test.c **** 	QFlash_WriteEnable();
+ 569              		.loc 1 157 2 view .LVU129
+ 570 0090 FFF7FEFF 		bl	QFlash_WriteEnable
+ 571              	.LVL67:
+ 158:Core/Src/z_qflash_W25QXXX_test.c **** 	HAL_Delay(1);
+ 572              		.loc 1 158 2 view .LVU130
+ 573 0094 0120     		movs	r0, #1
+ 574 0096 FFF7FEFF 		bl	HAL_Delay
+ 575              	.LVL68:
+ 159:Core/Src/z_qflash_W25QXXX_test.c **** 	sr2&=0xFD;
+ 576              		.loc 1 159 2 view .LVU131
+ 577              		.loc 1 159 5 is_stmt 0 view .LVU132
+ 578 009a 9DF80700 		ldrb	r0, [sp, #7]	@ zero_extendqisi2
+ 579 009e 00F0FD00 		and	r0, r0, #253
+ 580 00a2 8DF80700 		strb	r0, [sp, #7]
+ARM GAS  /tmp/ccUyhhg2.s 			page 14
+
+
+ 160:Core/Src/z_qflash_W25QXXX_test.c **** 	sr2=QFlash_WriteSR2(sr2);
+ 581              		.loc 1 160 2 is_stmt 1 view .LVU133
+ 582              		.loc 1 160 6 is_stmt 0 view .LVU134
+ 583 00a6 FFF7FEFF 		bl	QFlash_WriteSR2
+ 584              	.LVL69:
+ 585              		.loc 1 160 5 discriminator 1 view .LVU135
+ 586 00aa 8DF80700 		strb	r0, [sp, #7]
+ 161:Core/Src/z_qflash_W25QXXX_test.c **** 	HAL_Delay(1);
+ 587              		.loc 1 161 2 is_stmt 1 view .LVU136
+ 588 00ae 0120     		movs	r0, #1
+ 589 00b0 FFF7FEFF 		bl	HAL_Delay
+ 590              	.LVL70:
+ 162:Core/Src/z_qflash_W25QXXX_test.c **** 	sr2=0xFF;
+ 591              		.loc 1 162 2 view .LVU137
+ 592              		.loc 1 162 5 is_stmt 0 view .LVU138
+ 593 00b4 8DF80740 		strb	r4, [sp, #7]
+ 163:Core/Src/z_qflash_W25QXXX_test.c **** 	QFlash_ReadSR2(&sr2);
+ 594              		.loc 1 163 2 is_stmt 1 view .LVU139
+ 595 00b8 0DF10700 		add	r0, sp, #7
+ 596 00bc FFF7FEFF 		bl	QFlash_ReadSR2
+ 597              	.LVL71:
+ 164:Core/Src/z_qflash_W25QXXX_test.c **** 	HAL_Delay(1);
+ 598              		.loc 1 164 2 view .LVU140
+ 599 00c0 0120     		movs	r0, #1
+ 600 00c2 FFF7FEFF 		bl	HAL_Delay
+ 601              	.LVL72:
+ 165:Core/Src/z_qflash_W25QXXX_test.c **** 	QFlash_WriteEnable();
+ 602              		.loc 1 165 2 view .LVU141
+ 603 00c6 FFF7FEFF 		bl	QFlash_WriteEnable
+ 604              	.LVL73:
+ 166:Core/Src/z_qflash_W25QXXX_test.c **** 	HAL_Delay(1);
+ 605              		.loc 1 166 2 view .LVU142
+ 606 00ca 0120     		movs	r0, #1
+ 607 00cc FFF7FEFF 		bl	HAL_Delay
+ 608              	.LVL74:
+ 167:Core/Src/z_qflash_W25QXXX_test.c **** 	sr2|=0x02;
+ 609              		.loc 1 167 2 view .LVU143
+ 610              		.loc 1 167 5 is_stmt 0 view .LVU144
+ 611 00d0 9DF80700 		ldrb	r0, [sp, #7]	@ zero_extendqisi2
+ 612 00d4 40F00200 		orr	r0, r0, #2
+ 613 00d8 8DF80700 		strb	r0, [sp, #7]
+ 168:Core/Src/z_qflash_W25QXXX_test.c **** 	sr2=QFlash_WriteSR2(sr2);
+ 614              		.loc 1 168 2 is_stmt 1 view .LVU145
+ 615              		.loc 1 168 6 is_stmt 0 view .LVU146
+ 616 00dc FFF7FEFF 		bl	QFlash_WriteSR2
+ 617              	.LVL75:
+ 618              		.loc 1 168 5 discriminator 1 view .LVU147
+ 619 00e0 8DF80700 		strb	r0, [sp, #7]
+ 169:Core/Src/z_qflash_W25QXXX_test.c **** 	HAL_Delay(1);
+ 620              		.loc 1 169 2 is_stmt 1 view .LVU148
+ 621 00e4 0120     		movs	r0, #1
+ 622 00e6 FFF7FEFF 		bl	HAL_Delay
+ 623              	.LVL76:
+ 170:Core/Src/z_qflash_W25QXXX_test.c **** 	sr2=0xFF;
+ 624              		.loc 1 170 2 view .LVU149
+ 625              		.loc 1 170 5 is_stmt 0 view .LVU150
+ 626 00ea 8DF80740 		strb	r4, [sp, #7]
+ARM GAS  /tmp/ccUyhhg2.s 			page 15
+
+
+ 171:Core/Src/z_qflash_W25QXXX_test.c **** 	QFlash_ReadSR2(&sr2);
+ 627              		.loc 1 171 2 is_stmt 1 view .LVU151
+ 628 00ee 0DF10700 		add	r0, sp, #7
+ 629 00f2 FFF7FEFF 		bl	QFlash_ReadSR2
+ 630              	.LVL77:
+ 172:Core/Src/z_qflash_W25QXXX_test.c **** 	HAL_Delay(1);
+ 631              		.loc 1 172 2 view .LVU152
+ 632 00f6 0120     		movs	r0, #1
+ 633 00f8 FFF7FEFF 		bl	HAL_Delay
+ 634              	.LVL78:
+ 173:Core/Src/z_qflash_W25QXXX_test.c **** 
+ 174:Core/Src/z_qflash_W25QXXX_test.c **** }
+ 635              		.loc 1 174 1 is_stmt 0 view .LVU153
+ 636 00fc 02B0     		add	sp, sp, #8
+ 637              	.LCFI12:
+ 638              		.cfi_def_cfa_offset 8
+ 639              		@ sp needed
+ 640 00fe 10BD     		pop	{r4, pc}
+ 641              		.cfi_endproc
+ 642              	.LFE152:
+ 644              		.section	.text.TestStatusRegisters,"ax",%progbits
+ 645              		.align	1
+ 646              		.global	TestStatusRegisters
+ 647              		.syntax unified
+ 648              		.thumb
+ 649              		.thumb_func
+ 651              	TestStatusRegisters:
+ 652              	.LVL79:
+ 653              	.LFB153:
+ 175:Core/Src/z_qflash_W25QXXX_test.c **** 
+ 176:Core/Src/z_qflash_W25QXXX_test.c **** 
+ 177:Core/Src/z_qflash_W25QXXX_test.c **** 
+ 178:Core/Src/z_qflash_W25QXXX_test.c **** /****************************************
+ 179:Core/Src/z_qflash_W25QXXX_test.c ****  * level = 0	verifies correct
+ 180:Core/Src/z_qflash_W25QXXX_test.c ****  * 				velues in SR1, SR2,SR3
+ 181:Core/Src/z_qflash_W25QXXX_test.c ****  * level <> 0	makes some tests
+ 182:Core/Src/z_qflash_W25QXXX_test.c ****  ****************************************/
+ 183:Core/Src/z_qflash_W25QXXX_test.c **** HAL_StatusTypeDef TestStatusRegisters(uint8_t level) {
+ 654              		.loc 1 183 54 is_stmt 1 view -0
+ 655              		.cfi_startproc
+ 656              		@ args = 0, pretend = 0, frame = 8
+ 657              		@ frame_needed = 0, uses_anonymous_args = 0
+ 658              		.loc 1 183 54 is_stmt 0 view .LVU155
+ 659 0000 30B5     		push	{r4, r5, lr}
+ 660              	.LCFI13:
+ 661              		.cfi_def_cfa_offset 12
+ 662              		.cfi_offset 4, -12
+ 663              		.cfi_offset 5, -8
+ 664              		.cfi_offset 14, -4
+ 665 0002 83B0     		sub	sp, sp, #12
+ 666              	.LCFI14:
+ 667              		.cfi_def_cfa_offset 24
+ 668 0004 0546     		mov	r5, r0
+ 184:Core/Src/z_qflash_W25QXXX_test.c **** 	HAL_StatusTypeDef result = HAL_OK;
+ 669              		.loc 1 184 2 is_stmt 1 view .LVU156
+ 670              	.LVL80:
+ 185:Core/Src/z_qflash_W25QXXX_test.c **** 	uint8_t sr;
+ARM GAS  /tmp/ccUyhhg2.s 			page 16
+
+
+ 671              		.loc 1 185 2 view .LVU157
+ 186:Core/Src/z_qflash_W25QXXX_test.c **** 
+ 187:Core/Src/z_qflash_W25QXXX_test.c **** 	QFlash_ReadSR1(&sr);
+ 672              		.loc 1 187 2 view .LVU158
+ 673 0006 0DF10700 		add	r0, sp, #7
+ 674              	.LVL81:
+ 675              		.loc 1 187 2 is_stmt 0 view .LVU159
+ 676 000a FFF7FEFF 		bl	QFlash_ReadSR1
+ 677              	.LVL82:
+ 188:Core/Src/z_qflash_W25QXXX_test.c **** 
+ 189:Core/Src/z_qflash_W25QXXX_test.c **** 	if (!((sr && 1)==0)) {  //why flash is busy
+ 678              		.loc 1 189 2 is_stmt 1 view .LVU160
+ 679              		.loc 1 189 6 is_stmt 0 view .LVU161
+ 680 000e 9DF80740 		ldrb	r4, [sp, #7]	@ zero_extendqisi2
+ 681              		.loc 1 189 5 view .LVU162
+ 682 0012 04B1     		cbz	r4, .L31
+ 190:Core/Src/z_qflash_W25QXXX_test.c **** 		result=HAL_ERROR;
+ 683              		.loc 1 190 9 view .LVU163
+ 684 0014 0124     		movs	r4, #1
+ 685              	.L31:
+ 686              	.LVL83:
+ 191:Core/Src/z_qflash_W25QXXX_test.c **** 	} else if (!((sr && 2)==0)) {  //if write_enabled, disable it
+ 192:Core/Src/z_qflash_W25QXXX_test.c **** 		QFlash_WriteDisable();
+ 193:Core/Src/z_qflash_W25QXXX_test.c **** 		HAL_Delay(1);
+ 194:Core/Src/z_qflash_W25QXXX_test.c **** 		QFlash_ReadSR1(&sr);
+ 195:Core/Src/z_qflash_W25QXXX_test.c **** 		if (!((sr && 2)==0)){ //why flash is  still writeable?
+ 196:Core/Src/z_qflash_W25QXXX_test.c **** 			result=HAL_ERROR;
+ 197:Core/Src/z_qflash_W25QXXX_test.c **** 		}
+ 198:Core/Src/z_qflash_W25QXXX_test.c **** 	}
+ 199:Core/Src/z_qflash_W25QXXX_test.c **** 
+ 200:Core/Src/z_qflash_W25QXXX_test.c **** 	if (level!=0) {
+ 687              		.loc 1 200 2 is_stmt 1 view .LVU164
+ 688              		.loc 1 200 5 is_stmt 0 view .LVU165
+ 689 0016 15B9     		cbnz	r5, .L38
+ 690              	.L32:
+ 201:Core/Src/z_qflash_W25QXXX_test.c **** 		QFlash_WriteEnable();
+ 202:Core/Src/z_qflash_W25QXXX_test.c **** 		HAL_Delay(1);
+ 203:Core/Src/z_qflash_W25QXXX_test.c **** 		QFlash_ReadSR1(&sr);
+ 204:Core/Src/z_qflash_W25QXXX_test.c **** 		if (!(sr==2))
+ 205:Core/Src/z_qflash_W25QXXX_test.c **** 			result=HAL_ERROR;
+ 206:Core/Src/z_qflash_W25QXXX_test.c **** 
+ 207:Core/Src/z_qflash_W25QXXX_test.c **** 		HAL_Delay(10);
+ 208:Core/Src/z_qflash_W25QXXX_test.c **** 		if (TestSR1Setting())
+ 209:Core/Src/z_qflash_W25QXXX_test.c **** 			result=HAL_ERROR;
+ 210:Core/Src/z_qflash_W25QXXX_test.c **** 
+ 211:Core/Src/z_qflash_W25QXXX_test.c **** 		TestSR3Setting();
+ 212:Core/Src/z_qflash_W25QXXX_test.c **** 
+ 213:Core/Src/z_qflash_W25QXXX_test.c **** 		HAL_Delay(10);
+ 214:Core/Src/z_qflash_W25QXXX_test.c **** 		TestQESetting();
+ 215:Core/Src/z_qflash_W25QXXX_test.c **** 
+ 216:Core/Src/z_qflash_W25QXXX_test.c **** 		BlinkIt(!result);  //parameter is 1 if flash is OK
+ 217:Core/Src/z_qflash_W25QXXX_test.c **** 	}
+ 218:Core/Src/z_qflash_W25QXXX_test.c **** 
+ 219:Core/Src/z_qflash_W25QXXX_test.c **** 	return result;
+ 691              		.loc 1 219 2 is_stmt 1 view .LVU166
+ 220:Core/Src/z_qflash_W25QXXX_test.c **** }
+ 692              		.loc 1 220 1 is_stmt 0 view .LVU167
+ARM GAS  /tmp/ccUyhhg2.s 			page 17
+
+
+ 693 0018 2046     		mov	r0, r4
+ 694 001a 03B0     		add	sp, sp, #12
+ 695              	.LCFI15:
+ 696              		.cfi_remember_state
+ 697              		.cfi_def_cfa_offset 12
+ 698              		@ sp needed
+ 699 001c 30BD     		pop	{r4, r5, pc}
+ 700              	.LVL84:
+ 701              	.L38:
+ 702              	.LCFI16:
+ 703              		.cfi_restore_state
+ 201:Core/Src/z_qflash_W25QXXX_test.c **** 		QFlash_WriteEnable();
+ 704              		.loc 1 201 3 is_stmt 1 view .LVU168
+ 705 001e FFF7FEFF 		bl	QFlash_WriteEnable
+ 706              	.LVL85:
+ 202:Core/Src/z_qflash_W25QXXX_test.c **** 		QFlash_ReadSR1(&sr);
+ 707              		.loc 1 202 3 view .LVU169
+ 708 0022 0120     		movs	r0, #1
+ 709 0024 FFF7FEFF 		bl	HAL_Delay
+ 710              	.LVL86:
+ 203:Core/Src/z_qflash_W25QXXX_test.c **** 		if (!(sr==2))
+ 711              		.loc 1 203 3 view .LVU170
+ 712 0028 0DF10700 		add	r0, sp, #7
+ 713 002c FFF7FEFF 		bl	QFlash_ReadSR1
+ 714              	.LVL87:
+ 204:Core/Src/z_qflash_W25QXXX_test.c **** 			result=HAL_ERROR;
+ 715              		.loc 1 204 3 view .LVU171
+ 204:Core/Src/z_qflash_W25QXXX_test.c **** 			result=HAL_ERROR;
+ 716              		.loc 1 204 7 is_stmt 0 view .LVU172
+ 717 0030 9DF80730 		ldrb	r3, [sp, #7]	@ zero_extendqisi2
+ 204:Core/Src/z_qflash_W25QXXX_test.c **** 			result=HAL_ERROR;
+ 718              		.loc 1 204 6 view .LVU173
+ 719 0034 022B     		cmp	r3, #2
+ 720 0036 00D0     		beq	.L33
+ 205:Core/Src/z_qflash_W25QXXX_test.c **** 
+ 721              		.loc 1 205 10 view .LVU174
+ 722 0038 0124     		movs	r4, #1
+ 723              	.LVL88:
+ 724              	.L33:
+ 207:Core/Src/z_qflash_W25QXXX_test.c **** 		if (TestSR1Setting())
+ 725              		.loc 1 207 3 is_stmt 1 view .LVU175
+ 726 003a 0A20     		movs	r0, #10
+ 727 003c FFF7FEFF 		bl	HAL_Delay
+ 728              	.LVL89:
+ 208:Core/Src/z_qflash_W25QXXX_test.c **** 			result=HAL_ERROR;
+ 729              		.loc 1 208 3 view .LVU176
+ 208:Core/Src/z_qflash_W25QXXX_test.c **** 			result=HAL_ERROR;
+ 730              		.loc 1 208 7 is_stmt 0 view .LVU177
+ 731 0040 FFF7FEFF 		bl	TestSR1Setting
+ 732              	.LVL90:
+ 208:Core/Src/z_qflash_W25QXXX_test.c **** 			result=HAL_ERROR;
+ 733              		.loc 1 208 6 discriminator 1 view .LVU178
+ 734 0044 00B1     		cbz	r0, .L34
+ 209:Core/Src/z_qflash_W25QXXX_test.c **** 
+ 735              		.loc 1 209 10 view .LVU179
+ 736 0046 0124     		movs	r4, #1
+ 737              	.LVL91:
+ARM GAS  /tmp/ccUyhhg2.s 			page 18
+
+
+ 738              	.L34:
+ 211:Core/Src/z_qflash_W25QXXX_test.c **** 
+ 739              		.loc 1 211 3 is_stmt 1 view .LVU180
+ 740 0048 FFF7FEFF 		bl	TestSR3Setting
+ 741              	.LVL92:
+ 213:Core/Src/z_qflash_W25QXXX_test.c **** 		TestQESetting();
+ 742              		.loc 1 213 3 view .LVU181
+ 743 004c 0A20     		movs	r0, #10
+ 744 004e FFF7FEFF 		bl	HAL_Delay
+ 745              	.LVL93:
+ 214:Core/Src/z_qflash_W25QXXX_test.c **** 
+ 746              		.loc 1 214 3 view .LVU182
+ 747 0052 FFF7FEFF 		bl	TestQESetting
+ 748              	.LVL94:
+ 216:Core/Src/z_qflash_W25QXXX_test.c **** 	}
+ 749              		.loc 1 216 3 view .LVU183
+ 750 0056 B4FA84F0 		clz	r0, r4
+ 751 005a 4009     		lsrs	r0, r0, #5
+ 752 005c FFF7FEFF 		bl	BlinkIt
+ 753              	.LVL95:
+ 754 0060 DAE7     		b	.L32
+ 755              		.cfi_endproc
+ 756              	.LFE153:
+ 758              		.section	.text.TimeTest,"ax",%progbits
+ 759              		.align	1
+ 760              		.global	TimeTest
+ 761              		.syntax unified
+ 762              		.thumb
+ 763              		.thumb_func
+ 765              	TimeTest:
+ 766              	.LFB154:
+ 221:Core/Src/z_qflash_W25QXXX_test.c **** 
+ 222:Core/Src/z_qflash_W25QXXX_test.c **** #endif //FLASH_QSPI_MEMORY_MAPPED
+ 223:Core/Src/z_qflash_W25QXXX_test.c **** 
+ 224:Core/Src/z_qflash_W25QXXX_test.c **** 
+ 225:Core/Src/z_qflash_W25QXXX_test.c **** 
+ 226:Core/Src/z_qflash_W25QXXX_test.c **** 
+ 227:Core/Src/z_qflash_W25QXXX_test.c **** uint8_t TimeTest(){
+ 767              		.loc 1 227 19 view -0
+ 768              		.cfi_startproc
+ 769              		@ args = 0, pretend = 0, frame = 131080
+ 770              		@ frame_needed = 0, uses_anonymous_args = 0
+ 771 0000 2DE9F04F 		push	{r4, r5, r6, r7, r8, r9, r10, fp, lr}
+ 772              	.LCFI17:
+ 773              		.cfi_def_cfa_offset 36
+ 774              		.cfi_offset 4, -36
+ 775              		.cfi_offset 5, -32
+ 776              		.cfi_offset 6, -28
+ 777              		.cfi_offset 7, -24
+ 778              		.cfi_offset 8, -20
+ 779              		.cfi_offset 9, -16
+ 780              		.cfi_offset 10, -12
+ 781              		.cfi_offset 11, -8
+ 782              		.cfi_offset 14, -4
+ 783 0004 ADF5003D 		sub	sp, sp, #131072
+ 784              	.LCFI18:
+ 785              		.cfi_def_cfa_offset 131108
+ARM GAS  /tmp/ccUyhhg2.s 			page 19
+
+
+ 786 0008 83B0     		sub	sp, sp, #12
+ 787              	.LCFI19:
+ 788              		.cfi_def_cfa_offset 131120
+ 228:Core/Src/z_qflash_W25QXXX_test.c **** 	#define DSTEP_SIZE	2 	//data dimension increased on every step (2 = multiplied by 4)
+ 229:Core/Src/z_qflash_W25QXXX_test.c **** 	#define DSTEP_NUMB	9	//number of step tests
+ 230:Core/Src/z_qflash_W25QXXX_test.c **** 
+ 231:Core/Src/z_qflash_W25QXXX_test.c **** 
+ 232:Core/Src/z_qflash_W25QXXX_test.c **** 	#ifdef FLASH_QSPI_MEMORY_MAPPED
+ 233:Core/Src/z_qflash_W25QXXX_test.c **** 	// the below tests need QSPI to be in indirect mode.
+ 234:Core/Src/z_qflash_W25QXXX_test.c **** 		return 0;
+ 235:Core/Src/z_qflash_W25QXXX_test.c **** 	#endif //FLASH_QSPI_MEMORY_MAPPED
+ 236:Core/Src/z_qflash_W25QXXX_test.c **** 
+ 237:Core/Src/z_qflash_W25QXXX_test.c **** 
+ 238:Core/Src/z_qflash_W25QXXX_test.c **** 	uint8_t		flashOK=1;
+ 789              		.loc 1 238 2 view .LVU185
+ 790              	.LVL96:
+ 239:Core/Src/z_qflash_W25QXXX_test.c **** 
+ 240:Core/Src/z_qflash_W25QXXX_test.c **** 	uint32_t 	ttime;
+ 791              		.loc 1 240 2 view .LVU186
+ 241:Core/Src/z_qflash_W25QXXX_test.c **** 	uint8_t 	pos_t=0;
+ 792              		.loc 1 241 2 view .LVU187
+ 242:Core/Src/z_qflash_W25QXXX_test.c **** 	uint8_t		bufferout[1<<(DSTEP_SIZE*(DSTEP_NUMB-1))]={0};
+ 793              		.loc 1 242 2 view .LVU188
+ 794              		.loc 1 242 11 is_stmt 0 view .LVU189
+ 795 000a 4FF48034 		mov	r4, #65536
+ 796 000e 2246     		mov	r2, r4
+ 797 0010 0021     		movs	r1, #0
+ 798 0012 7348     		ldr	r0, .L60
+ 799 0014 6844     		add	r0, sp, r0
+ 800 0016 FFF7FEFF 		bl	memset
+ 801              	.LVL97:
+ 243:Core/Src/z_qflash_W25QXXX_test.c **** 	uint8_t		bufferin[(1<<DSTEP_SIZE*(DSTEP_NUMB-1))]={0};
+ 802              		.loc 1 243 2 is_stmt 1 view .LVU190
+ 803              		.loc 1 243 11 is_stmt 0 view .LVU191
+ 804 001a 2246     		mov	r2, r4
+ 805 001c 0021     		movs	r1, #0
+ 806 001e 02A8     		add	r0, sp, #8
+ 807 0020 FFF7FEFF 		bl	memset
+ 808              	.LVL98:
+ 244:Core/Src/z_qflash_W25QXXX_test.c **** 	uint32_t 	dsize;
+ 809              		.loc 1 244 2 is_stmt 1 view .LVU192
+ 245:Core/Src/z_qflash_W25QXXX_test.c **** 
+ 246:Core/Src/z_qflash_W25QXXX_test.c **** 	ttime = sizeof(ttimes);
+ 810              		.loc 1 246 2 view .LVU193
+ 247:Core/Src/z_qflash_W25QXXX_test.c **** 	ttime = sizeof(ttimes[0]);
+ 811              		.loc 1 247 2 view .LVU194
+ 248:Core/Src/z_qflash_W25QXXX_test.c **** 	ttime = sizeof(ttimes[0][0]);
+ 812              		.loc 1 248 2 view .LVU195
+ 249:Core/Src/z_qflash_W25QXXX_test.c **** 
+ 250:Core/Src/z_qflash_W25QXXX_test.c **** 	for (uint32_t k=0; k<(sizeof(ttimes)/sizeof(ttimes[0])); k++)
+ 813              		.loc 1 250 2 view .LVU196
+ 814              	.LBB3:
+ 815              		.loc 1 250 7 view .LVU197
+ 816              		.loc 1 250 16 is_stmt 0 view .LVU198
+ 817 0024 0024     		movs	r4, #0
+ 818              		.loc 1 250 2 view .LVU199
+ 819 0026 0AE0     		b	.L40
+ARM GAS  /tmp/ccUyhhg2.s 			page 20
+
+
+ 820              	.LVL99:
+ 821              	.L41:
+ 822              	.LBB4:
+ 251:Core/Src/z_qflash_W25QXXX_test.c **** 		for (uint8_t j=0; j<(sizeof(ttimes[0])/sizeof(ttimes[0][0])); j++)
+ 252:Core/Src/z_qflash_W25QXXX_test.c **** 			ttimes[k][j]=0;
+ 823              		.loc 1 252 4 is_stmt 1 view .LVU200
+ 824              		.loc 1 252 16 is_stmt 0 view .LVU201
+ 825 0028 03EB8401 		add	r1, r3, r4, lsl #2
+ 826 002c 6D4A     		ldr	r2, .L60+4
+ 827 002e 0020     		movs	r0, #0
+ 828 0030 42F82100 		str	r0, [r2, r1, lsl #2]
+ 251:Core/Src/z_qflash_W25QXXX_test.c **** 		for (uint8_t j=0; j<(sizeof(ttimes[0])/sizeof(ttimes[0][0])); j++)
+ 829              		.loc 1 251 66 is_stmt 1 discriminator 3 view .LVU202
+ 830 0034 0133     		adds	r3, r3, #1
+ 831              	.LVL100:
+ 251:Core/Src/z_qflash_W25QXXX_test.c **** 		for (uint8_t j=0; j<(sizeof(ttimes[0])/sizeof(ttimes[0][0])); j++)
+ 832              		.loc 1 251 66 is_stmt 0 discriminator 3 view .LVU203
+ 833 0036 DBB2     		uxtb	r3, r3
+ 834              	.LVL101:
+ 835              	.L42:
+ 251:Core/Src/z_qflash_W25QXXX_test.c **** 		for (uint8_t j=0; j<(sizeof(ttimes[0])/sizeof(ttimes[0][0])); j++)
+ 836              		.loc 1 251 22 is_stmt 1 discriminator 1 view .LVU204
+ 837 0038 032B     		cmp	r3, #3
+ 838 003a F5D9     		bls	.L41
+ 839              	.LBE4:
+ 250:Core/Src/z_qflash_W25QXXX_test.c **** 		for (uint8_t j=0; j<(sizeof(ttimes[0])/sizeof(ttimes[0][0])); j++)
+ 840              		.loc 1 250 60 discriminator 2 view .LVU205
+ 841 003c 0134     		adds	r4, r4, #1
+ 842              	.LVL102:
+ 843              	.L40:
+ 250:Core/Src/z_qflash_W25QXXX_test.c **** 		for (uint8_t j=0; j<(sizeof(ttimes[0])/sizeof(ttimes[0][0])); j++)
+ 844              		.loc 1 250 22 discriminator 1 view .LVU206
+ 845 003e 132C     		cmp	r4, #19
+ 846 0040 01D8     		bhi	.L57
+ 847              	.LBB5:
+ 251:Core/Src/z_qflash_W25QXXX_test.c **** 		for (uint8_t j=0; j<(sizeof(ttimes[0])/sizeof(ttimes[0][0])); j++)
+ 848              		.loc 1 251 16 is_stmt 0 view .LVU207
+ 849 0042 0023     		movs	r3, #0
+ 850 0044 F8E7     		b	.L42
+ 851              	.L57:
+ 852              	.LBE5:
+ 853              	.LBE3:
+ 253:Core/Src/z_qflash_W25QXXX_test.c **** 
+ 254:Core/Src/z_qflash_W25QXXX_test.c **** 	TIM2->EGR=1;  //reset TIM7->CNT
+ 854              		.loc 1 254 2 is_stmt 1 view .LVU208
+ 855              		.loc 1 254 11 is_stmt 0 view .LVU209
+ 856 0046 4FF08044 		mov	r4, #1073741824
+ 857              	.LVL103:
+ 858              		.loc 1 254 11 view .LVU210
+ 859 004a 0125     		movs	r5, #1
+ 860 004c 6561     		str	r5, [r4, #20]
+ 255:Core/Src/z_qflash_W25QXXX_test.c **** 	HAL_Delay(DELAY_TIME); //waiting timer reset
+ 861              		.loc 1 255 2 is_stmt 1 view .LVU211
+ 862 004e 3220     		movs	r0, #50
+ 863 0050 FFF7FEFF 		bl	HAL_Delay
+ 864              	.LVL104:
+ 256:Core/Src/z_qflash_W25QXXX_test.c **** 
+ARM GAS  /tmp/ccUyhhg2.s 			page 21
+
+
+ 257:Core/Src/z_qflash_W25QXXX_test.c **** 	// perform tests and register times
+ 258:Core/Src/z_qflash_W25QXXX_test.c **** 
+ 259:Core/Src/z_qflash_W25QXXX_test.c **** 	//pos_t 0
+ 260:Core/Src/z_qflash_W25QXXX_test.c **** 	ttime=TIM2->CNT;
+ 865              		.loc 1 260 2 view .LVU212
+ 866              		.loc 1 260 7 is_stmt 0 view .LVU213
+ 867 0054 666A     		ldr	r6, [r4, #36]
+ 868              	.LVL105:
+ 261:Core/Src/z_qflash_W25QXXX_test.c **** 	HAL_Delay(1);
+ 869              		.loc 1 261 2 is_stmt 1 view .LVU214
+ 870 0056 2846     		mov	r0, r5
+ 871 0058 FFF7FEFF 		bl	HAL_Delay
+ 872              	.LVL106:
+ 262:Core/Src/z_qflash_W25QXXX_test.c **** 	ttime=TIM2->CNT-ttime;
+ 873              		.loc 1 262 2 view .LVU215
+ 874              		.loc 1 262 12 is_stmt 0 view .LVU216
+ 875 005c 636A     		ldr	r3, [r4, #36]
+ 876              		.loc 1 262 7 view .LVU217
+ 877 005e 9B1B     		subs	r3, r3, r6
+ 878              	.LVL107:
+ 263:Core/Src/z_qflash_W25QXXX_test.c **** 	ttimes[pos_t++][1]=ttime;
+ 879              		.loc 1 263 2 is_stmt 1 view .LVU218
+ 880              		.loc 1 263 20 is_stmt 0 view .LVU219
+ 881 0060 604E     		ldr	r6, .L60+4
+ 882 0062 7360     		str	r3, [r6, #4]
+ 264:Core/Src/z_qflash_W25QXXX_test.c **** 
+ 265:Core/Src/z_qflash_W25QXXX_test.c **** 	//pos_t 1
+ 266:Core/Src/z_qflash_W25QXXX_test.c **** 	HAL_Delay(DELAY_TIME);
+ 883              		.loc 1 266 2 is_stmt 1 view .LVU220
+ 884 0064 3220     		movs	r0, #50
+ 885 0066 FFF7FEFF 		bl	HAL_Delay
+ 886              	.LVL108:
+ 267:Core/Src/z_qflash_W25QXXX_test.c **** 	ttime=TIM2->CNT;
+ 887              		.loc 1 267 2 view .LVU221
+ 888              		.loc 1 267 7 is_stmt 0 view .LVU222
+ 889 006a 676A     		ldr	r7, [r4, #36]
+ 890              	.LVL109:
+ 268:Core/Src/z_qflash_W25QXXX_test.c **** 	HAL_Delay(1);
+ 891              		.loc 1 268 2 is_stmt 1 view .LVU223
+ 892 006c 2846     		mov	r0, r5
+ 893 006e FFF7FEFF 		bl	HAL_Delay
+ 894              	.LVL110:
+ 269:Core/Src/z_qflash_W25QXXX_test.c **** 	ttime=TIM2->CNT-ttime;
+ 895              		.loc 1 269 2 view .LVU224
+ 896              		.loc 1 269 12 is_stmt 0 view .LVU225
+ 897 0072 636A     		ldr	r3, [r4, #36]
+ 898              		.loc 1 269 7 view .LVU226
+ 899 0074 DB1B     		subs	r3, r3, r7
+ 900              	.LVL111:
+ 270:Core/Src/z_qflash_W25QXXX_test.c **** 	ttimes[pos_t++][1]=ttime;
+ 901              		.loc 1 270 2 is_stmt 1 view .LVU227
+ 902              		.loc 1 270 20 is_stmt 0 view .LVU228
+ 903 0076 7361     		str	r3, [r6, #20]
+ 271:Core/Src/z_qflash_W25QXXX_test.c **** 
+ 272:Core/Src/z_qflash_W25QXXX_test.c **** 	//pos_t 2
+ 273:Core/Src/z_qflash_W25QXXX_test.c **** 	HAL_Delay(DELAY_TIME);
+ 904              		.loc 1 273 2 is_stmt 1 view .LVU229
+ARM GAS  /tmp/ccUyhhg2.s 			page 22
+
+
+ 905 0078 3220     		movs	r0, #50
+ 906 007a FFF7FEFF 		bl	HAL_Delay
+ 907              	.LVL112:
+ 274:Core/Src/z_qflash_W25QXXX_test.c **** 	ttime=TIM2->CNT;
+ 908              		.loc 1 274 2 view .LVU230
+ 909              		.loc 1 274 7 is_stmt 0 view .LVU231
+ 910 007e 676A     		ldr	r7, [r4, #36]
+ 911              	.LVL113:
+ 275:Core/Src/z_qflash_W25QXXX_test.c **** 	HAL_Delay(2);
+ 912              		.loc 1 275 2 is_stmt 1 view .LVU232
+ 913 0080 0220     		movs	r0, #2
+ 914 0082 FFF7FEFF 		bl	HAL_Delay
+ 915              	.LVL114:
+ 276:Core/Src/z_qflash_W25QXXX_test.c **** 	ttime=TIM2->CNT-ttime;
+ 916              		.loc 1 276 2 view .LVU233
+ 917              		.loc 1 276 12 is_stmt 0 view .LVU234
+ 918 0086 636A     		ldr	r3, [r4, #36]
+ 919              		.loc 1 276 7 view .LVU235
+ 920 0088 DB1B     		subs	r3, r3, r7
+ 921              	.LVL115:
+ 277:Core/Src/z_qflash_W25QXXX_test.c **** 	ttimes[pos_t++][1]=ttime;
+ 922              		.loc 1 277 2 is_stmt 1 view .LVU236
+ 923              		.loc 1 277 20 is_stmt 0 view .LVU237
+ 924 008a 7362     		str	r3, [r6, #36]
+ 278:Core/Src/z_qflash_W25QXXX_test.c **** 
+ 279:Core/Src/z_qflash_W25QXXX_test.c **** 	//test measuring Block Erase
+ 280:Core/Src/z_qflash_W25QXXX_test.c **** 	//pos_t 3
+ 281:Core/Src/z_qflash_W25QXXX_test.c **** 	HAL_GPIO_WritePin(TRIGGER_GPIO_Port,TRIGGER_Pin,GPIO_PIN_RESET);
+ 925              		.loc 1 281 2 is_stmt 1 view .LVU238
+ 926 008c 564F     		ldr	r7, .L60+8
+ 927 008e 0022     		movs	r2, #0
+ 928 0090 0821     		movs	r1, #8
+ 929 0092 3846     		mov	r0, r7
+ 930 0094 FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 931              	.LVL116:
+ 282:Core/Src/z_qflash_W25QXXX_test.c **** 	ttime=TIM2->CNT;
+ 932              		.loc 1 282 2 view .LVU239
+ 933              		.loc 1 282 7 is_stmt 0 view .LVU240
+ 934 0098 D4F82480 		ldr	r8, [r4, #36]
+ 935              	.LVL117:
+ 283:Core/Src/z_qflash_W25QXXX_test.c **** 	QFlash_BErase64k(0x00000);
+ 936              		.loc 1 283 2 is_stmt 1 view .LVU241
+ 937 009c 0020     		movs	r0, #0
+ 938 009e FFF7FEFF 		bl	QFlash_BErase64k
+ 939              	.LVL118:
+ 284:Core/Src/z_qflash_W25QXXX_test.c **** 	ttime=TIM2->CNT-ttime;
+ 940              		.loc 1 284 2 view .LVU242
+ 941              		.loc 1 284 12 is_stmt 0 view .LVU243
+ 942 00a2 636A     		ldr	r3, [r4, #36]
+ 943              		.loc 1 284 7 view .LVU244
+ 944 00a4 A3EB0803 		sub	r3, r3, r8
+ 945              	.LVL119:
+ 285:Core/Src/z_qflash_W25QXXX_test.c **** 	ttimes[pos_t++][1]=ttime;
+ 946              		.loc 1 285 2 is_stmt 1 view .LVU245
+ 947              		.loc 1 285 20 is_stmt 0 view .LVU246
+ 948 00a8 7363     		str	r3, [r6, #52]
+ 286:Core/Src/z_qflash_W25QXXX_test.c **** 	HAL_GPIO_WritePin(TRIGGER_GPIO_Port,TRIGGER_Pin,GPIO_PIN_SET);
+ARM GAS  /tmp/ccUyhhg2.s 			page 23
+
+
+ 949              		.loc 1 286 2 is_stmt 1 view .LVU247
+ 950 00aa 2A46     		mov	r2, r5
+ 951 00ac 0821     		movs	r1, #8
+ 952 00ae 3846     		mov	r0, r7
+ 953 00b0 FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 954              	.LVL120:
+ 287:Core/Src/z_qflash_W25QXXX_test.c **** 	HAL_Delay(DELAY_TIME);
+ 955              		.loc 1 287 2 view .LVU248
+ 956 00b4 3220     		movs	r0, #50
+ 957 00b6 FFF7FEFF 		bl	HAL_Delay
+ 958              	.LVL121:
+ 288:Core/Src/z_qflash_W25QXXX_test.c **** 
+ 289:Core/Src/z_qflash_W25QXXX_test.c **** 
+ 290:Core/Src/z_qflash_W25QXXX_test.c **** 	for (uint32_t k=0; k<(1<<(DSTEP_SIZE*(DSTEP_NUMB-1))); k++)
+ 959              		.loc 1 290 2 view .LVU249
+ 960              	.LBB6:
+ 961              		.loc 1 290 7 view .LVU250
+ 962              		.loc 1 290 16 is_stmt 0 view .LVU251
+ 963 00ba 0023     		movs	r3, #0
+ 964              		.loc 1 290 2 view .LVU252
+ 965 00bc 03E0     		b	.L43
+ 966              	.LVL122:
+ 967              	.L44:
+ 291:Core/Src/z_qflash_W25QXXX_test.c **** 		bufferout[k]=k;
+ 968              		.loc 1 291 3 is_stmt 1 view .LVU253
+ 969              		.loc 1 291 15 is_stmt 0 view .LVU254
+ 970 00be 484A     		ldr	r2, .L60
+ 971 00c0 6A44     		add	r2, sp, r2
+ 972 00c2 D354     		strb	r3, [r2, r3]
+ 290:Core/Src/z_qflash_W25QXXX_test.c **** 		bufferout[k]=k;
+ 973              		.loc 1 290 58 is_stmt 1 discriminator 3 view .LVU255
+ 974 00c4 0133     		adds	r3, r3, #1
+ 975              	.LVL123:
+ 976              	.L43:
+ 290:Core/Src/z_qflash_W25QXXX_test.c **** 		bufferout[k]=k;
+ 977              		.loc 1 290 22 discriminator 1 view .LVU256
+ 978 00c6 B3F5803F 		cmp	r3, #65536
+ 979 00ca F8D3     		bcc	.L44
+ 980              	.LBE6:
+ 981              	.LBB7:
+ 292:Core/Src/z_qflash_W25QXXX_test.c **** 
+ 293:Core/Src/z_qflash_W25QXXX_test.c **** 
+ 294:Core/Src/z_qflash_W25QXXX_test.c **** 	// loop testing various sizes of data
+ 295:Core/Src/z_qflash_W25QXXX_test.c **** 	for (uint8_t i=0;i<DSTEP_NUMB;i++){
+ 982              		.loc 1 295 15 is_stmt 0 view .LVU257
+ 983 00cc 4FF00009 		mov	r9, #0
+ 984              	.LBE7:
+ 285:Core/Src/z_qflash_W25QXXX_test.c **** 	HAL_GPIO_WritePin(TRIGGER_GPIO_Port,TRIGGER_Pin,GPIO_PIN_SET);
+ 985              		.loc 1 285 14 view .LVU258
+ 986 00d0 4FF0040A 		mov	r10, #4
+ 238:Core/Src/z_qflash_W25QXXX_test.c **** 
+ 987              		.loc 1 238 11 view .LVU259
+ 988 00d4 0124     		movs	r4, #1
+ 989 00d6 21E0     		b	.L45
+ 990              	.LVL124:
+ 991              	.L47:
+ 992              	.LBB12:
+ARM GAS  /tmp/ccUyhhg2.s 			page 24
+
+
+ 993              	.LBB8:
+ 994              	.LBB9:
+ 296:Core/Src/z_qflash_W25QXXX_test.c **** 		dsize=(1<<(DSTEP_SIZE*i));
+ 297:Core/Src/z_qflash_W25QXXX_test.c **** 		uint32_t addr = i*(0x10000); //base address writing test data: any loop uses a different 64k bloc
+ 298:Core/Src/z_qflash_W25QXXX_test.c **** 		QFlash_BErase64k(addr);
+ 299:Core/Src/z_qflash_W25QXXX_test.c **** 		//test measuring writing
+ 300:Core/Src/z_qflash_W25QXXX_test.c **** 		HAL_Delay(DELAY_TIME);
+ 301:Core/Src/z_qflash_W25QXXX_test.c **** 		ttimes[pos_t][0]=dsize;
+ 302:Core/Src/z_qflash_W25QXXX_test.c **** 		HAL_GPIO_WritePin(TRIGGER_GPIO_Port,TRIGGER_Pin,GPIO_PIN_RESET);
+ 303:Core/Src/z_qflash_W25QXXX_test.c **** 		ttime=TIM2->CNT;
+ 304:Core/Src/z_qflash_W25QXXX_test.c **** //		QFlash_Write(addr, bufferout, dsize);
+ 305:Core/Src/z_qflash_W25QXXX_test.c **** 		ttime=TIM2->CNT-ttime;
+ 306:Core/Src/z_qflash_W25QXXX_test.c **** 		ttimes[pos_t][1]=ttime;
+ 307:Core/Src/z_qflash_W25QXXX_test.c **** 		HAL_GPIO_WritePin(TRIGGER_GPIO_Port,TRIGGER_Pin,GPIO_PIN_SET);
+ 308:Core/Src/z_qflash_W25QXXX_test.c **** 
+ 309:Core/Src/z_qflash_W25QXXX_test.c **** 		//test measuring reading
+ 310:Core/Src/z_qflash_W25QXXX_test.c **** 		HAL_Delay(DELAY_TIME);
+ 311:Core/Src/z_qflash_W25QXXX_test.c **** 		HAL_GPIO_WritePin(TRIGGER_GPIO_Port,TRIGGER_Pin,GPIO_PIN_RESET);
+ 312:Core/Src/z_qflash_W25QXXX_test.c **** 		ttime=TIM2->CNT;
+ 313:Core/Src/z_qflash_W25QXXX_test.c **** 		QFlash_Read(addr, bufferin, dsize);
+ 314:Core/Src/z_qflash_W25QXXX_test.c **** 		ttime=TIM2->CNT-ttime;
+ 315:Core/Src/z_qflash_W25QXXX_test.c **** 		ttimes[pos_t++][2]=ttime;
+ 316:Core/Src/z_qflash_W25QXXX_test.c **** 		HAL_GPIO_WritePin(TRIGGER_GPIO_Port,TRIGGER_Pin,GPIO_PIN_SET);
+ 317:Core/Src/z_qflash_W25QXXX_test.c **** 
+ 318:Core/Src/z_qflash_W25QXXX_test.c **** 		// checking correct reading
+ 319:Core/Src/z_qflash_W25QXXX_test.c **** 		for (uint32_t k=0; ((k<dsize) && flashOK); k++){
+ 995              		.loc 1 319 47 is_stmt 1 discriminator 2 view .LVU260
+ 996 00d8 0133     		adds	r3, r3, #1
+ 997              	.LVL125:
+ 998              	.L46:
+ 999              		.loc 1 319 33 discriminator 1 view .LVU261
+ 1000              		.loc 1 319 25 is_stmt 0 discriminator 1 view .LVU262
+ 1001 00da AB42     		cmp	r3, r5
+ 1002 00dc 2CBF     		ite	cs
+ 1003 00de 0022     		movcs	r2, #0
+ 1004 00e0 0122     		movcc	r2, #1
+ 1005              		.loc 1 319 33 discriminator 1 view .LVU263
+ 1006 00e2 4CB1     		cbz	r4, .L55
+ 1007              		.loc 1 319 33 discriminator 1 view .LVU264
+ 1008 00e4 42B1     		cbz	r2, .L55
+ 320:Core/Src/z_qflash_W25QXXX_test.c **** 			if (bufferout[k]!=bufferin[k])
+ 1009              		.loc 1 320 4 is_stmt 1 view .LVU265
+ 1010              		.loc 1 320 17 is_stmt 0 view .LVU266
+ 1011 00e6 3E4A     		ldr	r2, .L60
+ 1012 00e8 6A44     		add	r2, sp, r2
+ 1013 00ea D15C     		ldrb	r1, [r2, r3]	@ zero_extendqisi2
+ 1014              		.loc 1 320 30 view .LVU267
+ 1015 00ec 02AA     		add	r2, sp, #8
+ 1016 00ee D25C     		ldrb	r2, [r2, r3]	@ zero_extendqisi2
+ 1017              		.loc 1 320 7 view .LVU268
+ 1018 00f0 9142     		cmp	r1, r2
+ 1019 00f2 F1D0     		beq	.L47
+ 321:Core/Src/z_qflash_W25QXXX_test.c **** 				flashOK=0;
+ 1020              		.loc 1 321 12 view .LVU269
+ 1021 00f4 0024     		movs	r4, #0
+ 1022              	.LVL126:
+ 1023              		.loc 1 321 12 view .LVU270
+ARM GAS  /tmp/ccUyhhg2.s 			page 25
+
+
+ 1024 00f6 EFE7     		b	.L47
+ 1025              	.LVL127:
+ 1026              	.L55:
+ 1027              		.loc 1 321 12 view .LVU271
+ 1028              	.LBE9:
+ 322:Core/Src/z_qflash_W25QXXX_test.c **** 		}
+ 323:Core/Src/z_qflash_W25QXXX_test.c **** 
+ 324:Core/Src/z_qflash_W25QXXX_test.c **** 		HAL_GPIO_WritePin(USER_LED_GPIO_Port, USER_LED_Pin, GPIO_PIN_RESET);
+ 1029              		.loc 1 324 3 is_stmt 1 view .LVU272
+ 1030 00f8 3B4D     		ldr	r5, .L60+8
+ 1031              	.LVL128:
+ 1032              		.loc 1 324 3 is_stmt 0 view .LVU273
+ 1033 00fa 0022     		movs	r2, #0
+ 1034 00fc 1021     		movs	r1, #16
+ 1035 00fe 2846     		mov	r0, r5
+ 1036 0100 FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 1037              	.LVL129:
+ 325:Core/Src/z_qflash_W25QXXX_test.c **** 		HAL_Delay(DELAY_TIME);
+ 1038              		.loc 1 325 3 is_stmt 1 view .LVU274
+ 1039 0104 3220     		movs	r0, #50
+ 1040 0106 FFF7FEFF 		bl	HAL_Delay
+ 1041              	.LVL130:
+ 326:Core/Src/z_qflash_W25QXXX_test.c **** 		HAL_GPIO_WritePin(USER_LED_GPIO_Port, USER_LED_Pin, GPIO_PIN_SET);
+ 1042              		.loc 1 326 3 view .LVU275
+ 1043 010a 0122     		movs	r2, #1
+ 1044              	.LVL131:
+ 1045              		.loc 1 326 3 is_stmt 0 view .LVU276
+ 1046 010c 1021     		movs	r1, #16
+ 1047 010e 2846     		mov	r0, r5
+ 1048 0110 FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 1049              	.LVL132:
+ 1050              		.loc 1 326 3 view .LVU277
+ 1051              	.LBE8:
+ 295:Core/Src/z_qflash_W25QXXX_test.c **** 		dsize=(1<<(DSTEP_SIZE*i));
+ 1052              		.loc 1 295 33 is_stmt 1 discriminator 2 view .LVU278
+ 1053 0114 09F10109 		add	r9, r9, #1
+ 1054              	.LVL133:
+ 295:Core/Src/z_qflash_W25QXXX_test.c **** 		dsize=(1<<(DSTEP_SIZE*i));
+ 1055              		.loc 1 295 33 is_stmt 0 discriminator 2 view .LVU279
+ 1056 0118 5FFA89F9 		uxtb	r9, r9
+ 1057              	.LVL134:
+ 1058              	.L45:
+ 295:Core/Src/z_qflash_W25QXXX_test.c **** 		dsize=(1<<(DSTEP_SIZE*i));
+ 1059              		.loc 1 295 20 is_stmt 1 discriminator 1 view .LVU280
+ 1060 011c B9F1080F 		cmp	r9, #8
+ 1061 0120 4AD8     		bhi	.L58
+ 1062              	.LBB11:
+ 296:Core/Src/z_qflash_W25QXXX_test.c **** 		uint32_t addr = i*(0x10000); //base address writing test data: any loop uses a different 64k bloc
+ 1063              		.loc 1 296 3 view .LVU281
+ 296:Core/Src/z_qflash_W25QXXX_test.c **** 		uint32_t addr = i*(0x10000); //base address writing test data: any loop uses a different 64k bloc
+ 1064              		.loc 1 296 24 is_stmt 0 view .LVU282
+ 1065 0122 4FEA4905 		lsl	r5, r9, #1
+ 296:Core/Src/z_qflash_W25QXXX_test.c **** 		uint32_t addr = i*(0x10000); //base address writing test data: any loop uses a different 64k bloc
+ 1066              		.loc 1 296 11 view .LVU283
+ 1067 0126 0123     		movs	r3, #1
+ 1068 0128 03FA05F5 		lsl	r5, r3, r5
+ 1069              	.LVL135:
+ARM GAS  /tmp/ccUyhhg2.s 			page 26
+
+
+ 297:Core/Src/z_qflash_W25QXXX_test.c **** 		QFlash_BErase64k(addr);
+ 1070              		.loc 1 297 3 is_stmt 1 view .LVU284
+ 297:Core/Src/z_qflash_W25QXXX_test.c **** 		QFlash_BErase64k(addr);
+ 1071              		.loc 1 297 20 is_stmt 0 view .LVU285
+ 1072 012c 4FEA0943 		lsl	r3, r9, #16
+ 1073              	.LVL136:
+ 298:Core/Src/z_qflash_W25QXXX_test.c **** 		//test measuring writing
+ 1074              		.loc 1 298 3 is_stmt 1 view .LVU286
+ 1075 0130 0093     		str	r3, [sp]
+ 1076 0132 1846     		mov	r0, r3
+ 1077 0134 FFF7FEFF 		bl	QFlash_BErase64k
+ 1078              	.LVL137:
+ 300:Core/Src/z_qflash_W25QXXX_test.c **** 		ttimes[pos_t][0]=dsize;
+ 1079              		.loc 1 300 3 view .LVU287
+ 1080 0138 3220     		movs	r0, #50
+ 1081 013a FFF7FEFF 		bl	HAL_Delay
+ 1082              	.LVL138:
+ 301:Core/Src/z_qflash_W25QXXX_test.c **** 		HAL_GPIO_WritePin(TRIGGER_GPIO_Port,TRIGGER_Pin,GPIO_PIN_RESET);
+ 1083              		.loc 1 301 3 view .LVU288
+ 301:Core/Src/z_qflash_W25QXXX_test.c **** 		HAL_GPIO_WritePin(TRIGGER_GPIO_Port,TRIGGER_Pin,GPIO_PIN_RESET);
+ 1084              		.loc 1 301 16 is_stmt 0 view .LVU289
+ 1085 013e CDF804A0 		str	r10, [sp, #4]
+ 301:Core/Src/z_qflash_W25QXXX_test.c **** 		HAL_GPIO_WritePin(TRIGGER_GPIO_Port,TRIGGER_Pin,GPIO_PIN_RESET);
+ 1086              		.loc 1 301 19 view .LVU290
+ 1087 0142 DFF8A080 		ldr	r8, .L60+4
+ 1088 0146 4FEA0A13 		lsl	r3, r10, #4
+ 1089 014a 08EB0A1B 		add	fp, r8, r10, lsl #4
+ 1090 014e 48F80350 		str	r5, [r8, r3]
+ 302:Core/Src/z_qflash_W25QXXX_test.c **** 		ttime=TIM2->CNT;
+ 1091              		.loc 1 302 3 is_stmt 1 view .LVU291
+ 1092 0152 254E     		ldr	r6, .L60+8
+ 1093 0154 0022     		movs	r2, #0
+ 1094 0156 0821     		movs	r1, #8
+ 1095 0158 3046     		mov	r0, r6
+ 1096 015a FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 1097              	.LVL139:
+ 303:Core/Src/z_qflash_W25QXXX_test.c **** //		QFlash_Write(addr, bufferout, dsize);
+ 1098              		.loc 1 303 3 view .LVU292
+ 303:Core/Src/z_qflash_W25QXXX_test.c **** //		QFlash_Write(addr, bufferout, dsize);
+ 1099              		.loc 1 303 8 is_stmt 0 view .LVU293
+ 1100 015e 4FF08047 		mov	r7, #1073741824
+ 1101 0162 7A6A     		ldr	r2, [r7, #36]
+ 1102              	.LVL140:
+ 305:Core/Src/z_qflash_W25QXXX_test.c **** 		ttimes[pos_t][1]=ttime;
+ 1103              		.loc 1 305 3 is_stmt 1 view .LVU294
+ 305:Core/Src/z_qflash_W25QXXX_test.c **** 		ttimes[pos_t][1]=ttime;
+ 1104              		.loc 1 305 13 is_stmt 0 view .LVU295
+ 1105 0164 7B6A     		ldr	r3, [r7, #36]
+ 305:Core/Src/z_qflash_W25QXXX_test.c **** 		ttimes[pos_t][1]=ttime;
+ 1106              		.loc 1 305 8 view .LVU296
+ 1107 0166 9B1A     		subs	r3, r3, r2
+ 1108              	.LVL141:
+ 306:Core/Src/z_qflash_W25QXXX_test.c **** 		HAL_GPIO_WritePin(TRIGGER_GPIO_Port,TRIGGER_Pin,GPIO_PIN_SET);
+ 1109              		.loc 1 306 3 is_stmt 1 view .LVU297
+ 306:Core/Src/z_qflash_W25QXXX_test.c **** 		HAL_GPIO_WritePin(TRIGGER_GPIO_Port,TRIGGER_Pin,GPIO_PIN_SET);
+ 1110              		.loc 1 306 19 is_stmt 0 view .LVU298
+ 1111 0168 CBF80430 		str	r3, [fp, #4]
+ARM GAS  /tmp/ccUyhhg2.s 			page 27
+
+
+ 307:Core/Src/z_qflash_W25QXXX_test.c **** 
+ 1112              		.loc 1 307 3 is_stmt 1 view .LVU299
+ 1113 016c 0122     		movs	r2, #1
+ 1114 016e 0821     		movs	r1, #8
+ 1115 0170 3046     		mov	r0, r6
+ 1116 0172 FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 1117              	.LVL142:
+ 310:Core/Src/z_qflash_W25QXXX_test.c **** 		HAL_GPIO_WritePin(TRIGGER_GPIO_Port,TRIGGER_Pin,GPIO_PIN_RESET);
+ 1118              		.loc 1 310 3 view .LVU300
+ 1119 0176 3220     		movs	r0, #50
+ 1120 0178 FFF7FEFF 		bl	HAL_Delay
+ 1121              	.LVL143:
+ 311:Core/Src/z_qflash_W25QXXX_test.c **** 		ttime=TIM2->CNT;
+ 1122              		.loc 1 311 3 view .LVU301
+ 1123 017c 0022     		movs	r2, #0
+ 1124 017e 0821     		movs	r1, #8
+ 1125 0180 3046     		mov	r0, r6
+ 1126 0182 FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 1127              	.LVL144:
+ 312:Core/Src/z_qflash_W25QXXX_test.c **** 		QFlash_Read(addr, bufferin, dsize);
+ 1128              		.loc 1 312 3 view .LVU302
+ 312:Core/Src/z_qflash_W25QXXX_test.c **** 		QFlash_Read(addr, bufferin, dsize);
+ 1129              		.loc 1 312 8 is_stmt 0 view .LVU303
+ 1130 0186 D7F824B0 		ldr	fp, [r7, #36]
+ 1131              	.LVL145:
+ 313:Core/Src/z_qflash_W25QXXX_test.c **** 		ttime=TIM2->CNT-ttime;
+ 1132              		.loc 1 313 3 is_stmt 1 view .LVU304
+ 1133 018a 2A46     		mov	r2, r5
+ 1134 018c 02A9     		add	r1, sp, #8
+ 1135 018e 0098     		ldr	r0, [sp]
+ 1136 0190 FFF7FEFF 		bl	QFlash_Read
+ 1137              	.LVL146:
+ 314:Core/Src/z_qflash_W25QXXX_test.c **** 		ttimes[pos_t++][2]=ttime;
+ 1138              		.loc 1 314 3 view .LVU305
+ 314:Core/Src/z_qflash_W25QXXX_test.c **** 		ttimes[pos_t++][2]=ttime;
+ 1139              		.loc 1 314 13 is_stmt 0 view .LVU306
+ 1140 0194 7A6A     		ldr	r2, [r7, #36]
+ 314:Core/Src/z_qflash_W25QXXX_test.c **** 		ttimes[pos_t++][2]=ttime;
+ 1141              		.loc 1 314 8 view .LVU307
+ 1142 0196 A2EB0B02 		sub	r2, r2, fp
+ 1143              	.LVL147:
+ 315:Core/Src/z_qflash_W25QXXX_test.c **** 		HAL_GPIO_WritePin(TRIGGER_GPIO_Port,TRIGGER_Pin,GPIO_PIN_SET);
+ 1144              		.loc 1 315 3 is_stmt 1 view .LVU308
+ 315:Core/Src/z_qflash_W25QXXX_test.c **** 		HAL_GPIO_WritePin(TRIGGER_GPIO_Port,TRIGGER_Pin,GPIO_PIN_SET);
+ 1145              		.loc 1 315 15 is_stmt 0 view .LVU309
+ 1146 019a 0AF1010A 		add	r10, r10, #1
+ 1147              	.LVL148:
+ 315:Core/Src/z_qflash_W25QXXX_test.c **** 		HAL_GPIO_WritePin(TRIGGER_GPIO_Port,TRIGGER_Pin,GPIO_PIN_SET);
+ 1148              		.loc 1 315 15 view .LVU310
+ 1149 019e 5FFA8AFA 		uxtb	r10, r10
+ 1150              	.LVL149:
+ 315:Core/Src/z_qflash_W25QXXX_test.c **** 		HAL_GPIO_WritePin(TRIGGER_GPIO_Port,TRIGGER_Pin,GPIO_PIN_SET);
+ 1151              		.loc 1 315 21 view .LVU311
+ 1152 01a2 019B     		ldr	r3, [sp, #4]
+ 1153 01a4 08EB0313 		add	r3, r8, r3, lsl #4
+ 1154 01a8 9A60     		str	r2, [r3, #8]
+ 316:Core/Src/z_qflash_W25QXXX_test.c **** 
+ARM GAS  /tmp/ccUyhhg2.s 			page 28
+
+
+ 1155              		.loc 1 316 3 is_stmt 1 view .LVU312
+ 1156 01aa 0122     		movs	r2, #1
+ 1157              	.LVL150:
+ 316:Core/Src/z_qflash_W25QXXX_test.c **** 
+ 1158              		.loc 1 316 3 is_stmt 0 view .LVU313
+ 1159 01ac 0821     		movs	r1, #8
+ 1160 01ae 3046     		mov	r0, r6
+ 1161 01b0 FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 1162              	.LVL151:
+ 319:Core/Src/z_qflash_W25QXXX_test.c **** 			if (bufferout[k]!=bufferin[k])
+ 1163              		.loc 1 319 3 is_stmt 1 view .LVU314
+ 1164              	.LBB10:
+ 319:Core/Src/z_qflash_W25QXXX_test.c **** 			if (bufferout[k]!=bufferin[k])
+ 1165              		.loc 1 319 8 view .LVU315
+ 319:Core/Src/z_qflash_W25QXXX_test.c **** 			if (bufferout[k]!=bufferin[k])
+ 1166              		.loc 1 319 17 is_stmt 0 view .LVU316
+ 1167 01b4 0023     		movs	r3, #0
+ 319:Core/Src/z_qflash_W25QXXX_test.c **** 			if (bufferout[k]!=bufferin[k])
+ 1168              		.loc 1 319 3 view .LVU317
+ 1169 01b6 90E7     		b	.L46
+ 1170              	.LVL152:
+ 1171              	.L58:
+ 319:Core/Src/z_qflash_W25QXXX_test.c **** 			if (bufferout[k]!=bufferin[k])
+ 1172              		.loc 1 319 3 view .LVU318
+ 1173              	.LBE10:
+ 1174              	.LBE11:
+ 1175              	.LBE12:
+ 327:Core/Src/z_qflash_W25QXXX_test.c **** 	}
+ 328:Core/Src/z_qflash_W25QXXX_test.c **** 
+ 329:Core/Src/z_qflash_W25QXXX_test.c **** 	if (!flashOK){
+ 1176              		.loc 1 329 2 is_stmt 1 view .LVU319
+ 1177              		.loc 1 329 5 is_stmt 0 view .LVU320
+ 1178 01b8 5CB1     		cbz	r4, .L59
+ 330:Core/Src/z_qflash_W25QXXX_test.c **** 		HAL_GPIO_WritePin(USER_LED_GPIO_Port, USER_LED_Pin, GPIO_PIN_RESET);
+ 331:Core/Src/z_qflash_W25QXXX_test.c **** 		__NOP();
+ 332:Core/Src/z_qflash_W25QXXX_test.c **** 	} else
+ 333:Core/Src/z_qflash_W25QXXX_test.c **** 		__NOP();
+ 1179              		.loc 1 333 3 is_stmt 1 view .LVU321
+ 1180              		.syntax unified
+ 1181              	@ 333 "Core/Src/z_qflash_W25QXXX_test.c" 1
+ 1182 01ba 00BF     		nop
+ 1183              	@ 0 "" 2
+ 1184              		.thumb
+ 1185              		.syntax unified
+ 1186              	.L52:
+ 334:Core/Src/z_qflash_W25QXXX_test.c **** 
+ 335:Core/Src/z_qflash_W25QXXX_test.c **** 	HAL_GPIO_WritePin(USER_LED_GPIO_Port, USER_LED_Pin, GPIO_PIN_SET);
+ 1187              		.loc 1 335 2 view .LVU322
+ 1188 01bc 0122     		movs	r2, #1
+ 1189 01be 1021     		movs	r1, #16
+ 1190 01c0 0948     		ldr	r0, .L60+8
+ 1191 01c2 FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 1192              	.LVL153:
+ 336:Core/Src/z_qflash_W25QXXX_test.c **** 
+ 337:Core/Src/z_qflash_W25QXXX_test.c **** 	return flashOK;
+ 1193              		.loc 1 337 2 view .LVU323
+ 338:Core/Src/z_qflash_W25QXXX_test.c **** }
+ARM GAS  /tmp/ccUyhhg2.s 			page 29
+
+
+ 1194              		.loc 1 338 1 is_stmt 0 view .LVU324
+ 1195 01c6 2046     		mov	r0, r4
+ 1196 01c8 0DF5003D 		add	sp, sp, #131072
+ 1197 01cc 03B0     		add	sp, sp, #12
+ 1198              	.LCFI20:
+ 1199              		.cfi_remember_state
+ 1200              		.cfi_def_cfa_offset 36
+ 1201              		@ sp needed
+ 1202 01ce BDE8F08F 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, pc}
+ 1203              	.LVL154:
+ 1204              	.L59:
+ 1205              	.LCFI21:
+ 1206              		.cfi_restore_state
+ 330:Core/Src/z_qflash_W25QXXX_test.c **** 		__NOP();
+ 1207              		.loc 1 330 3 is_stmt 1 view .LVU325
+ 1208 01d2 0022     		movs	r2, #0
+ 1209 01d4 1021     		movs	r1, #16
+ 1210 01d6 0448     		ldr	r0, .L60+8
+ 1211 01d8 FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 1212              	.LVL155:
+ 331:Core/Src/z_qflash_W25QXXX_test.c **** 	} else
+ 1213              		.loc 1 331 3 view .LVU326
+ 1214              		.syntax unified
+ 1215              	@ 331 "Core/Src/z_qflash_W25QXXX_test.c" 1
+ 1216 01dc 00BF     		nop
+ 1217              	@ 0 "" 2
+ 1218              		.thumb
+ 1219              		.syntax unified
+ 1220 01de EDE7     		b	.L52
+ 1221              	.L61:
+ 1222              		.align	2
+ 1223              	.L60:
+ 1224 01e0 08000100 		.word	65544
+ 1225 01e4 00000000 		.word	ttimes
+ 1226 01e8 00100258 		.word	1476530176
+ 1227              		.cfi_endproc
+ 1228              	.LFE154:
+ 1230              		.section	.text.TEST_QFlash_DefaultCmd,"ax",%progbits
+ 1231              		.align	1
+ 1232              		.global	TEST_QFlash_DefaultCmd
+ 1233              		.syntax unified
+ 1234              		.thumb
+ 1235              		.thumb_func
+ 1237              	TEST_QFlash_DefaultCmd:
+ 1238              	.LVL156:
+ 1239              	.LFB155:
+ 339:Core/Src/z_qflash_W25QXXX_test.c **** 
+ 340:Core/Src/z_qflash_W25QXXX_test.c **** 
+ 341:Core/Src/z_qflash_W25QXXX_test.c **** 
+ 342:Core/Src/z_qflash_W25QXXX_test.c **** 
+ 343:Core/Src/z_qflash_W25QXXX_test.c **** void TEST_QFlash_DefaultCmd(QSPI_CommandTypeDef *sCommand) {
+ 1240              		.loc 1 343 60 view -0
+ 1241              		.cfi_startproc
+ 1242              		@ args = 0, pretend = 0, frame = 0
+ 1243              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1244              		@ link register save eliminated.
+ 344:Core/Src/z_qflash_W25QXXX_test.c ****     sCommand->InstructionMode = QFLASH_INSTRUCTION_MODE;
+ARM GAS  /tmp/ccUyhhg2.s 			page 30
+
+
+ 1245              		.loc 1 344 5 view .LVU328
+ 1246              		.loc 1 344 31 is_stmt 0 view .LVU329
+ 1247 0000 4FF48073 		mov	r3, #256
+ 1248 0004 8361     		str	r3, [r0, #24]
+ 345:Core/Src/z_qflash_W25QXXX_test.c ****     sCommand->AddressMode = QFLASH_ADDRESS_MODE;
+ 1249              		.loc 1 345 5 is_stmt 1 view .LVU330
+ 1250              		.loc 1 345 27 is_stmt 0 view .LVU331
+ 1251 0006 4FF44063 		mov	r3, #3072
+ 1252 000a C361     		str	r3, [r0, #28]
+ 346:Core/Src/z_qflash_W25QXXX_test.c ****     sCommand->AddressSize = QFLASH_ADDRESS_SIZE;
+ 1253              		.loc 1 346 5 is_stmt 1 view .LVU332
+ 1254              		.loc 1 346 27 is_stmt 0 view .LVU333
+ 1255 000c 4FF40053 		mov	r3, #8192
+ 1256 0010 C360     		str	r3, [r0, #12]
+ 347:Core/Src/z_qflash_W25QXXX_test.c ****     sCommand->DataMode = QFLASH_DATA_MODE;
+ 1257              		.loc 1 347 5 is_stmt 1 view .LVU334
+ 1258              		.loc 1 347 24 is_stmt 0 view .LVU335
+ 1259 0012 4FF04073 		mov	r3, #50331648
+ 1260 0016 4362     		str	r3, [r0, #36]
+ 348:Core/Src/z_qflash_W25QXXX_test.c ****     sCommand->AlternateByteMode = QFLASH_ALTERNATE_BYTE_MODE;
+ 1261              		.loc 1 348 5 is_stmt 1 view .LVU336
+ 1262              		.loc 1 348 33 is_stmt 0 view .LVU337
+ 1263 0018 0023     		movs	r3, #0
+ 1264 001a 0362     		str	r3, [r0, #32]
+ 349:Core/Src/z_qflash_W25QXXX_test.c ****     sCommand->DdrMode = QFLASH_DDR_MODE;
+ 1265              		.loc 1 349 5 is_stmt 1 view .LVU338
+ 1266              		.loc 1 349 23 is_stmt 0 view .LVU339
+ 1267 001c C362     		str	r3, [r0, #44]
+ 350:Core/Src/z_qflash_W25QXXX_test.c ****     sCommand->DdrHoldHalfCycle = QFLASH_DDR_HOLD_HALF_CYCLE;
+ 1268              		.loc 1 350 5 is_stmt 1 view .LVU340
+ 1269              		.loc 1 350 32 is_stmt 0 view .LVU341
+ 1270 001e 0363     		str	r3, [r0, #48]
+ 351:Core/Src/z_qflash_W25QXXX_test.c ****     sCommand->SIOOMode = QFLASH_SIOO_MODE;
+ 1271              		.loc 1 351 5 is_stmt 1 view .LVU342
+ 1272              		.loc 1 351 24 is_stmt 0 view .LVU343
+ 1273 0020 4363     		str	r3, [r0, #52]
+ 352:Core/Src/z_qflash_W25QXXX_test.c ****     sCommand->DummyCycles = QFLASH_DUMMY_CYCLES;
+ 1274              		.loc 1 352 5 is_stmt 1 view .LVU344
+ 1275              		.loc 1 352 27 is_stmt 0 view .LVU345
+ 1276 0022 4361     		str	r3, [r0, #20]
+ 353:Core/Src/z_qflash_W25QXXX_test.c ****     return;
+ 1277              		.loc 1 353 5 is_stmt 1 view .LVU346
+ 354:Core/Src/z_qflash_W25QXXX_test.c **** }
+ 1278              		.loc 1 354 1 is_stmt 0 view .LVU347
+ 1279 0024 7047     		bx	lr
+ 1280              		.cfi_endproc
+ 1281              	.LFE155:
+ 1283              		.section	.text.TEST_QFlash_EnableMemoryMappedMode,"ax",%progbits
+ 1284              		.align	1
+ 1285              		.global	TEST_QFlash_EnableMemoryMappedMode
+ 1286              		.syntax unified
+ 1287              		.thumb
+ 1288              		.thumb_func
+ 1290              	TEST_QFlash_EnableMemoryMappedMode:
+ 1291              	.LFB156:
+ 355:Core/Src/z_qflash_W25QXXX_test.c **** 
+ 356:Core/Src/z_qflash_W25QXXX_test.c **** 
+ARM GAS  /tmp/ccUyhhg2.s 			page 31
+
+
+ 357:Core/Src/z_qflash_W25QXXX_test.c **** 
+ 358:Core/Src/z_qflash_W25QXXX_test.c **** 
+ 359:Core/Src/z_qflash_W25QXXX_test.c **** 
+ 360:Core/Src/z_qflash_W25QXXX_test.c **** 
+ 361:Core/Src/z_qflash_W25QXXX_test.c **** HAL_StatusTypeDef TEST_QFlash_EnableMemoryMappedMode(void) {
+ 1292              		.loc 1 361 60 is_stmt 1 view -0
+ 1293              		.cfi_startproc
+ 1294              		@ args = 0, pretend = 0, frame = 64
+ 1295              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1296 0000 10B5     		push	{r4, lr}
+ 1297              	.LCFI22:
+ 1298              		.cfi_def_cfa_offset 8
+ 1299              		.cfi_offset 4, -8
+ 1300              		.cfi_offset 14, -4
+ 1301 0002 90B0     		sub	sp, sp, #64
+ 1302              	.LCFI23:
+ 1303              		.cfi_def_cfa_offset 72
+ 362:Core/Src/z_qflash_W25QXXX_test.c **** 	QSPI_CommandTypeDef sCommand = {0};
+ 1304              		.loc 1 362 2 view .LVU349
+ 1305              		.loc 1 362 22 is_stmt 0 view .LVU350
+ 1306 0004 3822     		movs	r2, #56
+ 1307 0006 0021     		movs	r1, #0
+ 1308 0008 02A8     		add	r0, sp, #8
+ 1309 000a FFF7FEFF 		bl	memset
+ 1310              	.LVL157:
+ 363:Core/Src/z_qflash_W25QXXX_test.c **** 	QSPI_MemoryMappedTypeDef sMemMappedCfg = {0};
+ 1311              		.loc 1 363 2 is_stmt 1 view .LVU351
+ 1312              		.loc 1 363 27 is_stmt 0 view .LVU352
+ 1313 000e 0024     		movs	r4, #0
+ 1314 0010 0094     		str	r4, [sp]
+ 1315 0012 0194     		str	r4, [sp, #4]
+ 364:Core/Src/z_qflash_W25QXXX_test.c **** 
+ 365:Core/Src/z_qflash_W25QXXX_test.c **** 	// Setup reading command
+ 366:Core/Src/z_qflash_W25QXXX_test.c **** 	TEST_QFlash_DefaultCmd(&sCommand);
+ 1316              		.loc 1 366 2 is_stmt 1 view .LVU353
+ 1317 0014 02A8     		add	r0, sp, #8
+ 1318 0016 FFF7FEFF 		bl	TEST_QFlash_DefaultCmd
+ 1319              	.LVL158:
+ 367:Core/Src/z_qflash_W25QXXX_test.c **** 	sCommand.Instruction		= QFLASH_READ_COMMAND;
+ 1320              		.loc 1 367 2 view .LVU354
+ 1321              		.loc 1 367 24 is_stmt 0 view .LVU355
+ 1322 001a EB23     		movs	r3, #235
+ 1323 001c 0293     		str	r3, [sp, #8]
+ 368:Core/Src/z_qflash_W25QXXX_test.c **** 	sCommand.DummyCycles 		= QFLASH_READ_DUMMYC;
+ 1324              		.loc 1 368 2 is_stmt 1 view .LVU356
+ 1325              		.loc 1 368 25 is_stmt 0 view .LVU357
+ 1326 001e 0423     		movs	r3, #4
+ 1327 0020 0793     		str	r3, [sp, #28]
+ 369:Core/Src/z_qflash_W25QXXX_test.c ****     sCommand.AlternateBytes     = QFLASH_ALT_BYTES;
+ 1328              		.loc 1 369 5 is_stmt 1 view .LVU358
+ 1329              		.loc 1 369 33 is_stmt 0 view .LVU359
+ 1330 0022 FF23     		movs	r3, #255
+ 1331 0024 0493     		str	r3, [sp, #16]
+ 370:Core/Src/z_qflash_W25QXXX_test.c ****     sCommand.AlternateBytesSize = QFLASH_ALT_BYTES_S;
+ 1332              		.loc 1 370 5 is_stmt 1 view .LVU360
+ 1333              		.loc 1 370 33 is_stmt 0 view .LVU361
+ 1334 0026 0694     		str	r4, [sp, #24]
+ARM GAS  /tmp/ccUyhhg2.s 			page 32
+
+
+ 371:Core/Src/z_qflash_W25QXXX_test.c ****     sCommand.AlternateByteMode  = QFLASH_ALT_BYTES_M;
+ 1335              		.loc 1 371 5 is_stmt 1 view .LVU362
+ 1336              		.loc 1 371 33 is_stmt 0 view .LVU363
+ 1337 0028 4FF44043 		mov	r3, #49152
+ 1338 002c 0A93     		str	r3, [sp, #40]
+ 372:Core/Src/z_qflash_W25QXXX_test.c **** 
+ 373:Core/Src/z_qflash_W25QXXX_test.c **** 	// Set memory-mapped mode
+ 374:Core/Src/z_qflash_W25QXXX_test.c **** 
+ 375:Core/Src/z_qflash_W25QXXX_test.c ****     	sMemMappedCfg.TimeOutActivation = QSPI_TIMEOUT_COUNTER_DISABLE;
+ 1339              		.loc 1 375 6 is_stmt 1 view .LVU364
+ 1340              		.loc 1 375 38 is_stmt 0 view .LVU365
+ 1341 002e 0194     		str	r4, [sp, #4]
+ 376:Core/Src/z_qflash_W25QXXX_test.c **** //		sMemMappedCfg.TimeOutActivation = QSPI_TIMEOUT_COUNTER_ENABLE;
+ 377:Core/Src/z_qflash_W25QXXX_test.c **** //		sMemMappedCfg.TimeOutPeriod=4;
+ 378:Core/Src/z_qflash_W25QXXX_test.c **** 
+ 379:Core/Src/z_qflash_W25QXXX_test.c **** 	// go on
+ 380:Core/Src/z_qflash_W25QXXX_test.c **** 	if (HAL_QSPI_MemoryMapped(&FLASH_QSPI_PORT, &sCommand, &sMemMappedCfg) != HAL_OK) {
+ 1342              		.loc 1 380 2 is_stmt 1 view .LVU366
+ 1343              		.loc 1 380 6 is_stmt 0 view .LVU367
+ 1344 0030 6A46     		mov	r2, sp
+ 1345 0032 02A9     		add	r1, sp, #8
+ 1346 0034 0348     		ldr	r0, .L68
+ 1347 0036 FFF7FEFF 		bl	HAL_QSPI_MemoryMapped
+ 1348              	.LVL159:
+ 1349              		.loc 1 380 5 discriminator 1 view .LVU368
+ 1350 003a 08B9     		cbnz	r0, .L67
+ 1351              	.L64:
+ 381:Core/Src/z_qflash_W25QXXX_test.c **** 		return HAL_ERROR;
+ 382:Core/Src/z_qflash_W25QXXX_test.c **** 	}
+ 383:Core/Src/z_qflash_W25QXXX_test.c **** 
+ 384:Core/Src/z_qflash_W25QXXX_test.c **** 	return HAL_OK;
+ 385:Core/Src/z_qflash_W25QXXX_test.c **** }
+ 1352              		.loc 1 385 1 view .LVU369
+ 1353 003c 10B0     		add	sp, sp, #64
+ 1354              	.LCFI24:
+ 1355              		.cfi_remember_state
+ 1356              		.cfi_def_cfa_offset 8
+ 1357              		@ sp needed
+ 1358 003e 10BD     		pop	{r4, pc}
+ 1359              	.L67:
+ 1360              	.LCFI25:
+ 1361              		.cfi_restore_state
+ 381:Core/Src/z_qflash_W25QXXX_test.c **** 		return HAL_ERROR;
+ 1362              		.loc 1 381 10 view .LVU370
+ 1363 0040 0120     		movs	r0, #1
+ 1364 0042 FBE7     		b	.L64
+ 1365              	.L69:
+ 1366              		.align	2
+ 1367              	.L68:
+ 1368 0044 00000000 		.word	hqspi
+ 1369              		.cfi_endproc
+ 1370              	.LFE156:
+ 1372              		.section	.text.pre_MMTest,"ax",%progbits
+ 1373              		.align	1
+ 1374              		.global	pre_MMTest
+ 1375              		.syntax unified
+ 1376              		.thumb
+ARM GAS  /tmp/ccUyhhg2.s 			page 33
+
+
+ 1377              		.thumb_func
+ 1379              	pre_MMTest:
+ 1380              	.LFB157:
+ 386:Core/Src/z_qflash_W25QXXX_test.c **** 
+ 387:Core/Src/z_qflash_W25QXXX_test.c **** 
+ 388:Core/Src/z_qflash_W25QXXX_test.c **** 
+ 389:Core/Src/z_qflash_W25QXXX_test.c **** 
+ 390:Core/Src/z_qflash_W25QXXX_test.c **** uint8_t pre_MMTest(){
+ 1381              		.loc 1 390 21 is_stmt 1 view -0
+ 1382              		.cfi_startproc
+ 1383              		@ args = 0, pretend = 0, frame = 65536
+ 1384              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1385 0000 70B5     		push	{r4, r5, r6, lr}
+ 1386              	.LCFI26:
+ 1387              		.cfi_def_cfa_offset 16
+ 1388              		.cfi_offset 4, -16
+ 1389              		.cfi_offset 5, -12
+ 1390              		.cfi_offset 6, -8
+ 1391              		.cfi_offset 14, -4
+ 1392 0002 ADF5803D 		sub	sp, sp, #65536
+ 1393              	.LCFI27:
+ 1394              		.cfi_def_cfa_offset 65552
+ 391:Core/Src/z_qflash_W25QXXX_test.c **** #define DSTEP_SIZE	2 	//data dimension increased on every step (2 = multiplied by 4)
+ 392:Core/Src/z_qflash_W25QXXX_test.c **** #define DSTEP_NUMB	9	//number of step tests
+ 393:Core/Src/z_qflash_W25QXXX_test.c **** 	uint8_t		bufferout[1<<(DSTEP_SIZE*(DSTEP_NUMB-1))]={0};
+ 1395              		.loc 1 393 2 view .LVU372
+ 1396              		.loc 1 393 11 is_stmt 0 view .LVU373
+ 1397 0006 4FF48032 		mov	r2, #65536
+ 1398 000a 0021     		movs	r1, #0
+ 1399 000c 6846     		mov	r0, sp
+ 1400 000e FFF7FEFF 		bl	memset
+ 1401              	.LVL160:
+ 394:Core/Src/z_qflash_W25QXXX_test.c **** 	uint32_t addr = (0); //base address writing test data: any loop uses a different 64k block)
+ 1402              		.loc 1 394 2 is_stmt 1 view .LVU374
+ 395:Core/Src/z_qflash_W25QXXX_test.c **** 	uint32_t dsize=(1<<(DSTEP_SIZE*(DSTEP_NUMB-1)));
+ 1403              		.loc 1 395 2 view .LVU375
+ 396:Core/Src/z_qflash_W25QXXX_test.c **** 
+ 397:Core/Src/z_qflash_W25QXXX_test.c **** 	for (uint32_t k=0; k<dsize; k++)
+ 1404              		.loc 1 397 2 view .LVU376
+ 1405              	.LBB13:
+ 1406              		.loc 1 397 7 view .LVU377
+ 1407              		.loc 1 397 16 is_stmt 0 view .LVU378
+ 1408 0012 0023     		movs	r3, #0
+ 1409              		.loc 1 397 2 view .LVU379
+ 1410 0014 02E0     		b	.L71
+ 1411              	.LVL161:
+ 1412              	.L72:
+ 398:Core/Src/z_qflash_W25QXXX_test.c **** 		bufferout[k]=k;
+ 1413              		.loc 1 398 3 is_stmt 1 view .LVU380
+ 1414              		.loc 1 398 15 is_stmt 0 view .LVU381
+ 1415 0016 0DF80330 		strb	r3, [sp, r3]
+ 397:Core/Src/z_qflash_W25QXXX_test.c **** 		bufferout[k]=k;
+ 1416              		.loc 1 397 31 is_stmt 1 discriminator 3 view .LVU382
+ 1417 001a 0133     		adds	r3, r3, #1
+ 1418              	.LVL162:
+ 1419              	.L71:
+ 397:Core/Src/z_qflash_W25QXXX_test.c **** 		bufferout[k]=k;
+ARM GAS  /tmp/ccUyhhg2.s 			page 34
+
+
+ 1420              		.loc 1 397 22 discriminator 1 view .LVU383
+ 1421 001c B3F5803F 		cmp	r3, #65536
+ 1422 0020 F9D3     		bcc	.L72
+ 1423              	.LBE13:
+ 399:Core/Src/z_qflash_W25QXXX_test.c **** 
+ 400:Core/Src/z_qflash_W25QXXX_test.c **** 	QFlash_BErase64k(addr);
+ 1424              		.loc 1 400 2 view .LVU384
+ 1425 0022 0020     		movs	r0, #0
+ 1426 0024 FFF7FEFF 		bl	QFlash_BErase64k
+ 1427              	.LVL163:
+ 401:Core/Src/z_qflash_W25QXXX_test.c **** 
+ 402:Core/Src/z_qflash_W25QXXX_test.c **** 	for (uint8_t i=0;i<DSTEP_NUMB;i++){
+ 1428              		.loc 1 402 2 view .LVU385
+ 1429              	.LBB14:
+ 1430              		.loc 1 402 7 view .LVU386
+ 1431              		.loc 1 402 15 is_stmt 0 view .LVU387
+ 1432 0028 0024     		movs	r4, #0
+ 1433              		.loc 1 402 2 view .LVU388
+ 1434 002a 17E0     		b	.L73
+ 1435              	.LVL164:
+ 1436              	.L74:
+ 403:Core/Src/z_qflash_W25QXXX_test.c **** 		dsize=(1<<(DSTEP_SIZE*i));
+ 1437              		.loc 1 403 3 is_stmt 1 view .LVU389
+ 1438              		.loc 1 403 24 is_stmt 0 view .LVU390
+ 1439 002c 6200     		lsls	r2, r4, #1
+ 1440              		.loc 1 403 11 view .LVU391
+ 1441 002e 0126     		movs	r6, #1
+ 1442              	.LVL165:
+ 404:Core/Src/z_qflash_W25QXXX_test.c **** 		addr = i*(0x10000);
+ 1443              		.loc 1 404 3 is_stmt 1 view .LVU392
+ 405:Core/Src/z_qflash_W25QXXX_test.c **** 
+ 406:Core/Src/z_qflash_W25QXXX_test.c **** 
+ 407:Core/Src/z_qflash_W25QXXX_test.c **** 		QFlash_Write(addr, bufferout, dsize);
+ 1444              		.loc 1 407 3 view .LVU393
+ 1445 0030 06FA02F2 		lsl	r2, r6, r2
+ 1446              	.LVL166:
+ 1447              		.loc 1 407 3 is_stmt 0 view .LVU394
+ 1448 0034 6946     		mov	r1, sp
+ 1449 0036 2004     		lsls	r0, r4, #16
+ 1450              	.LVL167:
+ 1451              		.loc 1 407 3 view .LVU395
+ 1452 0038 FFF7FEFF 		bl	QFlash_Write
+ 1453              	.LVL168:
+ 408:Core/Src/z_qflash_W25QXXX_test.c **** 		HAL_GPIO_WritePin(USER_LED_GPIO_Port, USER_LED_Pin, GPIO_PIN_SET);
+ 1454              		.loc 1 408 3 is_stmt 1 view .LVU396
+ 1455 003c 0A4D     		ldr	r5, .L76
+ 1456 003e 3246     		mov	r2, r6
+ 1457 0040 1021     		movs	r1, #16
+ 1458 0042 2846     		mov	r0, r5
+ 1459 0044 FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 1460              	.LVL169:
+ 409:Core/Src/z_qflash_W25QXXX_test.c **** 		HAL_Delay(DELAY_TIME);
+ 1461              		.loc 1 409 3 view .LVU397
+ 1462 0048 3220     		movs	r0, #50
+ 1463 004a FFF7FEFF 		bl	HAL_Delay
+ 1464              	.LVL170:
+ 410:Core/Src/z_qflash_W25QXXX_test.c **** 		HAL_GPIO_WritePin(USER_LED_GPIO_Port, USER_LED_Pin, GPIO_PIN_RESET);
+ARM GAS  /tmp/ccUyhhg2.s 			page 35
+
+
+ 1465              		.loc 1 410 3 view .LVU398
+ 1466 004e 0022     		movs	r2, #0
+ 1467 0050 1021     		movs	r1, #16
+ 1468 0052 2846     		mov	r0, r5
+ 1469 0054 FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 1470              	.LVL171:
+ 402:Core/Src/z_qflash_W25QXXX_test.c **** 		dsize=(1<<(DSTEP_SIZE*i));
+ 1471              		.loc 1 402 33 discriminator 3 view .LVU399
+ 1472 0058 3444     		add	r4, r4, r6
+ 1473              	.LVL172:
+ 402:Core/Src/z_qflash_W25QXXX_test.c **** 		dsize=(1<<(DSTEP_SIZE*i));
+ 1474              		.loc 1 402 33 is_stmt 0 discriminator 3 view .LVU400
+ 1475 005a E4B2     		uxtb	r4, r4
+ 1476              	.LVL173:
+ 1477              	.L73:
+ 402:Core/Src/z_qflash_W25QXXX_test.c **** 		dsize=(1<<(DSTEP_SIZE*i));
+ 1478              		.loc 1 402 20 is_stmt 1 discriminator 1 view .LVU401
+ 1479 005c 082C     		cmp	r4, #8
+ 1480 005e E5D9     		bls	.L74
+ 1481              	.LBE14:
+ 411:Core/Src/z_qflash_W25QXXX_test.c **** 
+ 412:Core/Src/z_qflash_W25QXXX_test.c **** 	}
+ 413:Core/Src/z_qflash_W25QXXX_test.c **** 	return 1;
+ 1482              		.loc 1 413 2 view .LVU402
+ 414:Core/Src/z_qflash_W25QXXX_test.c **** }
+ 1483              		.loc 1 414 1 is_stmt 0 view .LVU403
+ 1484 0060 0120     		movs	r0, #1
+ 1485 0062 0DF5803D 		add	sp, sp, #65536
+ 1486              	.LCFI28:
+ 1487              		.cfi_def_cfa_offset 16
+ 1488              		@ sp needed
+ 1489 0066 70BD     		pop	{r4, r5, r6, pc}
+ 1490              	.LVL174:
+ 1491              	.L77:
+ 1492              		.loc 1 414 1 view .LVU404
+ 1493              		.align	2
+ 1494              	.L76:
+ 1495 0068 00100258 		.word	1476530176
+ 1496              		.cfi_endproc
+ 1497              	.LFE157:
+ 1499              		.section	.text.MMTest,"ax",%progbits
+ 1500              		.align	1
+ 1501              		.global	MMTest
+ 1502              		.syntax unified
+ 1503              		.thumb
+ 1504              		.thumb_func
+ 1506              	MMTest:
+ 1507              	.LFB158:
+ 415:Core/Src/z_qflash_W25QXXX_test.c **** 
+ 416:Core/Src/z_qflash_W25QXXX_test.c **** 
+ 417:Core/Src/z_qflash_W25QXXX_test.c **** 
+ 418:Core/Src/z_qflash_W25QXXX_test.c **** 
+ 419:Core/Src/z_qflash_W25QXXX_test.c **** uint8_t MMTest(){
+ 1508              		.loc 1 419 17 is_stmt 1 view -0
+ 1509              		.cfi_startproc
+ 1510              		@ args = 0, pretend = 0, frame = 131072
+ 1511              		@ frame_needed = 0, uses_anonymous_args = 0
+ARM GAS  /tmp/ccUyhhg2.s 			page 36
+
+
+ 1512 0000 2DE9F043 		push	{r4, r5, r6, r7, r8, r9, lr}
+ 1513              	.LCFI29:
+ 1514              		.cfi_def_cfa_offset 28
+ 1515              		.cfi_offset 4, -28
+ 1516              		.cfi_offset 5, -24
+ 1517              		.cfi_offset 6, -20
+ 1518              		.cfi_offset 7, -16
+ 1519              		.cfi_offset 8, -12
+ 1520              		.cfi_offset 9, -8
+ 1521              		.cfi_offset 14, -4
+ 1522 0004 ADF5003D 		sub	sp, sp, #131072
+ 1523              	.LCFI30:
+ 1524              		.cfi_def_cfa_offset 131100
+ 1525 0008 81B0     		sub	sp, sp, #4
+ 1526              	.LCFI31:
+ 1527              		.cfi_def_cfa_offset 131104
+ 420:Core/Src/z_qflash_W25QXXX_test.c **** #define DSTEP_SIZE	2 	//data dimension increased on every step (2 = multiplied by 4)
+ 421:Core/Src/z_qflash_W25QXXX_test.c **** #define DSTEP_NUMB	9	//number of step tests
+ 422:Core/Src/z_qflash_W25QXXX_test.c **** 	uint8_t 	flashOK=1;
+ 1528              		.loc 1 422 2 view .LVU406
+ 1529              	.LVL175:
+ 423:Core/Src/z_qflash_W25QXXX_test.c **** 	uint32_t addr = (0); //base address writing test data: any loop uses a different 64k block)
+ 1530              		.loc 1 423 2 view .LVU407
+ 424:Core/Src/z_qflash_W25QXXX_test.c **** 	uint32_t 	ttime;
+ 1531              		.loc 1 424 2 view .LVU408
+ 425:Core/Src/z_qflash_W25QXXX_test.c **** 	uint8_t		bufferout[1<<(DSTEP_SIZE*(DSTEP_NUMB-1))]={0};
+ 1532              		.loc 1 425 2 view .LVU409
+ 1533              		.loc 1 425 11 is_stmt 0 view .LVU410
+ 1534 000a 4FF48034 		mov	r4, #65536
+ 1535 000e 2246     		mov	r2, r4
+ 1536 0010 0021     		movs	r1, #0
+ 1537 0012 0DEB0400 		add	r0, sp, r4
+ 1538 0016 FFF7FEFF 		bl	memset
+ 1539              	.LVL176:
+ 426:Core/Src/z_qflash_W25QXXX_test.c **** 	uint8_t		bufferin[(1<<DSTEP_SIZE*(DSTEP_NUMB-1))]={0};
+ 1540              		.loc 1 426 2 is_stmt 1 view .LVU411
+ 1541              		.loc 1 426 11 is_stmt 0 view .LVU412
+ 1542 001a 2246     		mov	r2, r4
+ 1543 001c 0021     		movs	r1, #0
+ 1544 001e 6846     		mov	r0, sp
+ 1545 0020 FFF7FEFF 		bl	memset
+ 1546              	.LVL177:
+ 427:Core/Src/z_qflash_W25QXXX_test.c **** 
+ 428:Core/Src/z_qflash_W25QXXX_test.c **** 	uint32_t dsize=(1<<(DSTEP_SIZE*(DSTEP_NUMB-1)));
+ 1547              		.loc 1 428 2 is_stmt 1 view .LVU413
+ 429:Core/Src/z_qflash_W25QXXX_test.c **** 	for (uint32_t k=0; k<dsize; k++)
+ 1548              		.loc 1 429 2 view .LVU414
+ 1549              	.LBB15:
+ 1550              		.loc 1 429 7 view .LVU415
+ 1551              		.loc 1 429 16 is_stmt 0 view .LVU416
+ 1552 0024 0023     		movs	r3, #0
+ 1553              		.loc 1 429 2 view .LVU417
+ 1554 0026 03E0     		b	.L79
+ 1555              	.LVL178:
+ 1556              	.L80:
+ 430:Core/Src/z_qflash_W25QXXX_test.c **** 		bufferout[k]=k;
+ 1557              		.loc 1 430 3 is_stmt 1 view .LVU418
+ARM GAS  /tmp/ccUyhhg2.s 			page 37
+
+
+ 1558              		.loc 1 430 15 is_stmt 0 view .LVU419
+ 1559 0028 0DF58032 		add	r2, sp, #65536
+ 1560 002c D354     		strb	r3, [r2, r3]
+ 429:Core/Src/z_qflash_W25QXXX_test.c **** 	for (uint32_t k=0; k<dsize; k++)
+ 1561              		.loc 1 429 31 is_stmt 1 discriminator 3 view .LVU420
+ 1562 002e 0133     		adds	r3, r3, #1
+ 1563              	.LVL179:
+ 1564              	.L79:
+ 429:Core/Src/z_qflash_W25QXXX_test.c **** 	for (uint32_t k=0; k<dsize; k++)
+ 1565              		.loc 1 429 22 discriminator 1 view .LVU421
+ 1566 0030 B3F5803F 		cmp	r3, #65536
+ 1567 0034 F8D3     		bcc	.L80
+ 1568              	.LBE15:
+ 431:Core/Src/z_qflash_W25QXXX_test.c **** 
+ 432:Core/Src/z_qflash_W25QXXX_test.c **** 
+ 433:Core/Src/z_qflash_W25QXXX_test.c **** 	if (TEST_QFlash_EnableMemoryMappedMode()==HAL_ERROR)
+ 1569              		.loc 1 433 2 view .LVU422
+ 1570              		.loc 1 433 6 is_stmt 0 view .LVU423
+ 1571 0036 FFF7FEFF 		bl	TEST_QFlash_EnableMemoryMappedMode
+ 1572              	.LVL180:
+ 1573              		.loc 1 433 6 view .LVU424
+ 1574 003a 0546     		mov	r5, r0
+ 1575              		.loc 1 433 5 discriminator 1 view .LVU425
+ 1576 003c 0128     		cmp	r0, #1
+ 1577 003e 42D0     		beq	.L81
+ 1578              	.LBB16:
+ 434:Core/Src/z_qflash_W25QXXX_test.c **** 		return HAL_ERROR;
+ 435:Core/Src/z_qflash_W25QXXX_test.c **** 
+ 436:Core/Src/z_qflash_W25QXXX_test.c **** 	for (uint32_t k=0; k<(1<<(DSTEP_SIZE*(DSTEP_NUMB-1))); k++)
+ 1579              		.loc 1 436 16 view .LVU426
+ 1580 0040 0023     		movs	r3, #0
+ 1581 0042 03E0     		b	.L82
+ 1582              	.LVL181:
+ 1583              	.L83:
+ 437:Core/Src/z_qflash_W25QXXX_test.c **** 		bufferout[k]=k;
+ 1584              		.loc 1 437 3 is_stmt 1 view .LVU427
+ 1585              		.loc 1 437 15 is_stmt 0 view .LVU428
+ 1586 0044 0DF58032 		add	r2, sp, #65536
+ 1587 0048 D354     		strb	r3, [r2, r3]
+ 436:Core/Src/z_qflash_W25QXXX_test.c **** 		bufferout[k]=k;
+ 1588              		.loc 1 436 58 is_stmt 1 discriminator 3 view .LVU429
+ 1589 004a 0133     		adds	r3, r3, #1
+ 1590              	.LVL182:
+ 1591              	.L82:
+ 436:Core/Src/z_qflash_W25QXXX_test.c **** 		bufferout[k]=k;
+ 1592              		.loc 1 436 22 discriminator 1 view .LVU430
+ 1593 004c B3F5803F 		cmp	r3, #65536
+ 1594 0050 F8D3     		bcc	.L83
+ 1595              	.LBE16:
+ 1596              	.LBB17:
+ 438:Core/Src/z_qflash_W25QXXX_test.c **** 
+ 439:Core/Src/z_qflash_W25QXXX_test.c **** 	for (uint8_t i=0;i<DSTEP_NUMB;i++){
+ 1597              		.loc 1 439 15 is_stmt 0 view .LVU431
+ 1598 0052 0026     		movs	r6, #0
+ 1599              	.LBE17:
+ 422:Core/Src/z_qflash_W25QXXX_test.c **** 	uint32_t addr = (0); //base address writing test data: any loop uses a different 64k block)
+ 1600              		.loc 1 422 11 view .LVU432
+ARM GAS  /tmp/ccUyhhg2.s 			page 38
+
+
+ 1601 0054 0125     		movs	r5, #1
+ 1602 0056 2DE0     		b	.L84
+ 1603              	.LVL183:
+ 1604              	.L86:
+ 1605              	.LBB21:
+ 1606              	.LBB18:
+ 440:Core/Src/z_qflash_W25QXXX_test.c **** 		dsize=(1<<(DSTEP_SIZE*i));
+ 441:Core/Src/z_qflash_W25QXXX_test.c **** 		addr = i*(0x10000);
+ 442:Core/Src/z_qflash_W25QXXX_test.c **** 		for (uint32_t k=0; k<(dsize); k++)
+ 443:Core/Src/z_qflash_W25QXXX_test.c **** 			bufferin[k]=0;
+ 1607              		.loc 1 443 4 is_stmt 1 view .LVU433
+ 1608              		.loc 1 443 15 is_stmt 0 view .LVU434
+ 1609 0058 0022     		movs	r2, #0
+ 1610 005a 0DF80320 		strb	r2, [sp, r3]
+ 442:Core/Src/z_qflash_W25QXXX_test.c **** 			bufferin[k]=0;
+ 1611              		.loc 1 442 34 is_stmt 1 discriminator 3 view .LVU435
+ 1612 005e 0133     		adds	r3, r3, #1
+ 1613              	.LVL184:
+ 1614              	.L85:
+ 442:Core/Src/z_qflash_W25QXXX_test.c **** 			bufferin[k]=0;
+ 1615              		.loc 1 442 23 discriminator 1 view .LVU436
+ 1616 0060 A342     		cmp	r3, r4
+ 1617 0062 F9D3     		bcc	.L86
+ 442:Core/Src/z_qflash_W25QXXX_test.c **** 			bufferin[k]=0;
+ 1618              		.loc 1 442 23 is_stmt 0 discriminator 1 view .LVU437
+ 1619              	.LBE18:
+ 444:Core/Src/z_qflash_W25QXXX_test.c **** 
+ 445:Core/Src/z_qflash_W25QXXX_test.c **** 		ttime=TIM2->CNT;
+ 1620              		.loc 1 445 3 is_stmt 1 view .LVU438
+ 1621              		.loc 1 445 8 is_stmt 0 view .LVU439
+ 1622 0064 4FF08048 		mov	r8, #1073741824
+ 1623 0068 D8F82490 		ldr	r9, [r8, #36]
+ 1624              	.LVL185:
+ 446:Core/Src/z_qflash_W25QXXX_test.c **** 		memcpy(bufferin, (uint8_t *)(0x90000000+addr), dsize);
+ 1625              		.loc 1 446 3 is_stmt 1 view .LVU440
+ 1626 006c 2246     		mov	r2, r4
+ 1627 006e 01F11041 		add	r1, r1, #-1879048192
+ 1628              	.LVL186:
+ 1629              		.loc 1 446 3 is_stmt 0 view .LVU441
+ 1630 0072 6846     		mov	r0, sp
+ 1631 0074 FFF7FEFF 		bl	memcpy
+ 1632              	.LVL187:
+ 447:Core/Src/z_qflash_W25QXXX_test.c **** 		ttime=TIM2->CNT-ttime;
+ 1633              		.loc 1 447 3 is_stmt 1 view .LVU442
+ 1634              		.loc 1 447 13 is_stmt 0 view .LVU443
+ 1635 0078 D8F82400 		ldr	r0, [r8, #36]
+ 1636              		.loc 1 447 8 view .LVU444
+ 1637 007c A0EB0900 		sub	r0, r0, r9
+ 1638              	.LVL188:
+ 448:Core/Src/z_qflash_W25QXXX_test.c **** 
+ 449:Core/Src/z_qflash_W25QXXX_test.c **** 		for (uint32_t k=0; ((k<dsize) && flashOK); k++){
+ 1639              		.loc 1 449 3 is_stmt 1 view .LVU445
+ 1640              	.LBB19:
+ 1641              		.loc 1 449 8 view .LVU446
+ 1642              		.loc 1 449 17 is_stmt 0 view .LVU447
+ 1643 0080 0023     		movs	r3, #0
+ 1644              		.loc 1 449 3 view .LVU448
+ARM GAS  /tmp/ccUyhhg2.s 			page 39
+
+
+ 1645 0082 00E0     		b	.L87
+ 1646              	.LVL189:
+ 1647              	.L88:
+ 1648              		.loc 1 449 47 is_stmt 1 discriminator 2 view .LVU449
+ 1649 0084 0133     		adds	r3, r3, #1
+ 1650              	.LVL190:
+ 1651              	.L87:
+ 1652              		.loc 1 449 33 discriminator 1 view .LVU450
+ 1653              		.loc 1 449 25 is_stmt 0 discriminator 1 view .LVU451
+ 1654 0086 A342     		cmp	r3, r4
+ 1655 0088 2CBF     		ite	cs
+ 1656 008a 0022     		movcs	r2, #0
+ 1657 008c 0122     		movcc	r2, #1
+ 1658              		.loc 1 449 33 discriminator 1 view .LVU452
+ 1659 008e 4DB1     		cbz	r5, .L93
+ 1660              		.loc 1 449 33 discriminator 1 view .LVU453
+ 1661 0090 42B1     		cbz	r2, .L93
+ 450:Core/Src/z_qflash_W25QXXX_test.c **** 			if (bufferout[k]!=bufferin[k])
+ 1662              		.loc 1 450 4 is_stmt 1 view .LVU454
+ 1663              		.loc 1 450 17 is_stmt 0 view .LVU455
+ 1664 0092 0DF58032 		add	r2, sp, #65536
+ 1665 0096 D15C     		ldrb	r1, [r2, r3]	@ zero_extendqisi2
+ 1666              		.loc 1 450 30 view .LVU456
+ 1667 0098 1DF80320 		ldrb	r2, [sp, r3]	@ zero_extendqisi2
+ 1668              		.loc 1 450 7 view .LVU457
+ 1669 009c 9142     		cmp	r1, r2
+ 1670 009e F1D0     		beq	.L88
+ 451:Core/Src/z_qflash_W25QXXX_test.c **** 				flashOK=0;
+ 1671              		.loc 1 451 12 view .LVU458
+ 1672 00a0 0025     		movs	r5, #0
+ 1673              	.LVL191:
+ 1674              		.loc 1 451 12 view .LVU459
+ 1675 00a2 EFE7     		b	.L88
+ 1676              	.LVL192:
+ 1677              	.L93:
+ 1678              		.loc 1 451 12 view .LVU460
+ 1679              	.LBE19:
+ 452:Core/Src/z_qflash_W25QXXX_test.c **** 		}
+ 453:Core/Src/z_qflash_W25QXXX_test.c **** 
+ 454:Core/Src/z_qflash_W25QXXX_test.c **** 
+ 455:Core/Src/z_qflash_W25QXXX_test.c **** 		ttimes[i][0]=dsize;
+ 1680              		.loc 1 455 3 is_stmt 1 view .LVU461
+ 1681              		.loc 1 455 15 is_stmt 0 view .LVU462
+ 1682 00a4 0B4B     		ldr	r3, .L95
+ 1683              	.LVL193:
+ 1684              		.loc 1 455 15 view .LVU463
+ 1685 00a6 3A01     		lsls	r2, r7, #4
+ 1686 00a8 03EB0717 		add	r7, r3, r7, lsl #4
+ 1687 00ac 9C50     		str	r4, [r3, r2]
+ 456:Core/Src/z_qflash_W25QXXX_test.c **** 		ttimes[i][1]=ttime;
+ 1688              		.loc 1 456 3 is_stmt 1 view .LVU464
+ 1689              		.loc 1 456 15 is_stmt 0 view .LVU465
+ 1690 00ae 7860     		str	r0, [r7, #4]
+ 439:Core/Src/z_qflash_W25QXXX_test.c **** 		dsize=(1<<(DSTEP_SIZE*i));
+ 1691              		.loc 1 439 33 is_stmt 1 discriminator 2 view .LVU466
+ 1692 00b0 0136     		adds	r6, r6, #1
+ 1693              	.LVL194:
+ARM GAS  /tmp/ccUyhhg2.s 			page 40
+
+
+ 439:Core/Src/z_qflash_W25QXXX_test.c **** 		dsize=(1<<(DSTEP_SIZE*i));
+ 1694              		.loc 1 439 33 is_stmt 0 discriminator 2 view .LVU467
+ 1695 00b2 F6B2     		uxtb	r6, r6
+ 1696              	.LVL195:
+ 1697              	.L84:
+ 439:Core/Src/z_qflash_W25QXXX_test.c **** 		dsize=(1<<(DSTEP_SIZE*i));
+ 1698              		.loc 1 439 20 is_stmt 1 discriminator 1 view .LVU468
+ 1699 00b4 082E     		cmp	r6, #8
+ 1700 00b6 06D8     		bhi	.L81
+ 440:Core/Src/z_qflash_W25QXXX_test.c **** 		addr = i*(0x10000);
+ 1701              		.loc 1 440 3 view .LVU469
+ 440:Core/Src/z_qflash_W25QXXX_test.c **** 		addr = i*(0x10000);
+ 1702              		.loc 1 440 24 is_stmt 0 view .LVU470
+ 1703 00b8 3746     		mov	r7, r6
+ 1704 00ba 7300     		lsls	r3, r6, #1
+ 440:Core/Src/z_qflash_W25QXXX_test.c **** 		addr = i*(0x10000);
+ 1705              		.loc 1 440 11 view .LVU471
+ 1706 00bc 0124     		movs	r4, #1
+ 1707 00be 9C40     		lsls	r4, r4, r3
+ 1708              	.LVL196:
+ 441:Core/Src/z_qflash_W25QXXX_test.c **** 		for (uint32_t k=0; k<(dsize); k++)
+ 1709              		.loc 1 441 3 is_stmt 1 view .LVU472
+ 441:Core/Src/z_qflash_W25QXXX_test.c **** 		for (uint32_t k=0; k<(dsize); k++)
+ 1710              		.loc 1 441 11 is_stmt 0 view .LVU473
+ 1711 00c0 3104     		lsls	r1, r6, #16
+ 1712              	.LVL197:
+ 442:Core/Src/z_qflash_W25QXXX_test.c **** 			bufferin[k]=0;
+ 1713              		.loc 1 442 3 is_stmt 1 view .LVU474
+ 1714              	.LBB20:
+ 442:Core/Src/z_qflash_W25QXXX_test.c **** 			bufferin[k]=0;
+ 1715              		.loc 1 442 8 view .LVU475
+ 442:Core/Src/z_qflash_W25QXXX_test.c **** 			bufferin[k]=0;
+ 1716              		.loc 1 442 17 is_stmt 0 view .LVU476
+ 1717 00c2 0023     		movs	r3, #0
+ 442:Core/Src/z_qflash_W25QXXX_test.c **** 			bufferin[k]=0;
+ 1718              		.loc 1 442 3 view .LVU477
+ 1719 00c4 CCE7     		b	.L85
+ 1720              	.LVL198:
+ 1721              	.L81:
+ 442:Core/Src/z_qflash_W25QXXX_test.c **** 			bufferin[k]=0;
+ 1722              		.loc 1 442 3 view .LVU478
+ 1723              	.LBE20:
+ 1724              	.LBE21:
+ 457:Core/Src/z_qflash_W25QXXX_test.c **** 
+ 458:Core/Src/z_qflash_W25QXXX_test.c **** 
+ 459:Core/Src/z_qflash_W25QXXX_test.c **** 	}
+ 460:Core/Src/z_qflash_W25QXXX_test.c **** 
+ 461:Core/Src/z_qflash_W25QXXX_test.c **** 	return flashOK;
+ 462:Core/Src/z_qflash_W25QXXX_test.c **** 
+ 463:Core/Src/z_qflash_W25QXXX_test.c **** }
+ 1725              		.loc 1 463 1 view .LVU479
+ 1726 00c6 2846     		mov	r0, r5
+ 1727 00c8 0DF5003D 		add	sp, sp, #131072
+ 1728 00cc 01B0     		add	sp, sp, #4
+ 1729              	.LCFI32:
+ 1730              		.cfi_def_cfa_offset 28
+ 1731              		@ sp needed
+ARM GAS  /tmp/ccUyhhg2.s 			page 41
+
+
+ 1732 00ce BDE8F083 		pop	{r4, r5, r6, r7, r8, r9, pc}
+ 1733              	.L96:
+ 1734 00d2 00BF     		.align	2
+ 1735              	.L95:
+ 1736 00d4 00000000 		.word	ttimes
+ 1737              		.cfi_endproc
+ 1738              	.LFE158:
+ 1740              		.global	ttimes
+ 1741              		.section	.bss.ttimes,"aw",%nobits
+ 1742              		.align	2
+ 1745              	ttimes:
+ 1746 0000 00000000 		.space	320
+ 1746      00000000 
+ 1746      00000000 
+ 1746      00000000 
+ 1746      00000000 
+ 1747              		.text
+ 1748              	.Letext0:
+ 1749              		.file 2 "/opt/st/stm32cubeide_1.19.0/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-
+ 1750              		.file 3 "/opt/st/stm32cubeide_1.19.0/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-
+ 1751              		.file 4 "Drivers/CMSIS/Device/ST/STM32H7xx/Include/stm32h753xx.h"
+ 1752              		.file 5 "/opt/st/stm32cubeide_1.19.0/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-
+ 1753              		.file 6 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_def.h"
+ 1754              		.file 7 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_gpio.h"
+ 1755              		.file 8 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_mdma.h"
+ 1756              		.file 9 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_qspi.h"
+ 1757              		.file 10 "/opt/st/stm32cubeide_1.19.0/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for
+ 1758              		.file 11 "Core/Inc/z_qflash_W25QXXX.h"
+ 1759              		.file 12 "Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal.h"
+ 1760              		.file 13 "<built-in>"
+ARM GAS  /tmp/ccUyhhg2.s 			page 42
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 z_qflash_W25QXXX_test.c
+     /tmp/ccUyhhg2.s:20     .text.BlinkIt:00000000 $t
+     /tmp/ccUyhhg2.s:26     .text.BlinkIt:00000000 BlinkIt
+     /tmp/ccUyhhg2.s:115    .text.BlinkIt:00000070 $d
+     /tmp/ccUyhhg2.s:120    .text.TriggerLogicAnalyzer:00000000 $t
+     /tmp/ccUyhhg2.s:126    .text.TriggerLogicAnalyzer:00000000 TriggerLogicAnalyzer
+     /tmp/ccUyhhg2.s:188    .text.TriggerLogicAnalyzer:00000034 $d
+     /tmp/ccUyhhg2.s:193    .rodata.SimpleReadingTest.str1.4:00000000 $d
+     /tmp/ccUyhhg2.s:197    .text.SimpleReadingTest:00000000 $t
+     /tmp/ccUyhhg2.s:203    .text.SimpleReadingTest:00000000 SimpleReadingTest
+     /tmp/ccUyhhg2.s:264    .text.SimpleReadingTest:00000058 $d
+     /tmp/ccUyhhg2.s:270    .text.TestSR1Setting:00000000 $t
+     /tmp/ccUyhhg2.s:276    .text.TestSR1Setting:00000000 TestSR1Setting
+     /tmp/ccUyhhg2.s:363    .text.TestSR3Setting:00000000 $t
+     /tmp/ccUyhhg2.s:369    .text.TestSR3Setting:00000000 TestSR3Setting
+     /tmp/ccUyhhg2.s:462    .text.TestQESetting:00000000 $t
+     /tmp/ccUyhhg2.s:468    .text.TestQESetting:00000000 TestQESetting
+     /tmp/ccUyhhg2.s:645    .text.TestStatusRegisters:00000000 $t
+     /tmp/ccUyhhg2.s:651    .text.TestStatusRegisters:00000000 TestStatusRegisters
+     /tmp/ccUyhhg2.s:759    .text.TimeTest:00000000 $t
+     /tmp/ccUyhhg2.s:765    .text.TimeTest:00000000 TimeTest
+     /tmp/ccUyhhg2.s:1224   .text.TimeTest:000001e0 $d
+     /tmp/ccUyhhg2.s:1745   .bss.ttimes:00000000 ttimes
+     /tmp/ccUyhhg2.s:1231   .text.TEST_QFlash_DefaultCmd:00000000 $t
+     /tmp/ccUyhhg2.s:1237   .text.TEST_QFlash_DefaultCmd:00000000 TEST_QFlash_DefaultCmd
+     /tmp/ccUyhhg2.s:1284   .text.TEST_QFlash_EnableMemoryMappedMode:00000000 $t
+     /tmp/ccUyhhg2.s:1290   .text.TEST_QFlash_EnableMemoryMappedMode:00000000 TEST_QFlash_EnableMemoryMappedMode
+     /tmp/ccUyhhg2.s:1368   .text.TEST_QFlash_EnableMemoryMappedMode:00000044 $d
+     /tmp/ccUyhhg2.s:1373   .text.pre_MMTest:00000000 $t
+     /tmp/ccUyhhg2.s:1379   .text.pre_MMTest:00000000 pre_MMTest
+     /tmp/ccUyhhg2.s:1495   .text.pre_MMTest:00000068 $d
+     /tmp/ccUyhhg2.s:1500   .text.MMTest:00000000 $t
+     /tmp/ccUyhhg2.s:1506   .text.MMTest:00000000 MMTest
+     /tmp/ccUyhhg2.s:1736   .text.MMTest:000000d4 $d
+     /tmp/ccUyhhg2.s:1742   .bss.ttimes:00000000 $d
+
+UNDEFINED SYMBOLS
+HAL_GPIO_WritePin
+HAL_Delay
+QFlash_Read
+QFlash_ReadSR1
+QFlash_WriteEnable
+QFlash_WriteDisable
+QFlash_ReadSR3
+QFlash_WriteSR3
+QFlash_ReadSR2
+QFlash_WriteSR2
+memset
+QFlash_BErase64k
+HAL_QSPI_MemoryMapped
+hqspi
+QFlash_Write
+memcpy

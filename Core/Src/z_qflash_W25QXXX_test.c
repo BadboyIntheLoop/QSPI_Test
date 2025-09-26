@@ -8,6 +8,7 @@
 
 #include "main.h"
 #include <string.h>
+#include <stdio.h>
 
 extern QSPI_HandleTypeDef FLASH_QSPI_PORT;
 
@@ -277,12 +278,12 @@ uint8_t TimeTest(){
 
 	//test measuring Block Erase
 	//pos_t 3
-	HAL_GPIO_WritePin(TRIGGER_GPIO_Port,TRIGGER_Pin,GPIO_PIN_SET);
+	HAL_GPIO_WritePin(TRIGGER_GPIO_Port,TRIGGER_Pin,GPIO_PIN_RESET);
 	ttime=TIM2->CNT;
 	QFlash_BErase64k(0x00000);
 	ttime=TIM2->CNT-ttime;
 	ttimes[pos_t++][1]=ttime;
-	HAL_GPIO_WritePin(TRIGGER_GPIO_Port,TRIGGER_Pin,GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(TRIGGER_GPIO_Port,TRIGGER_Pin,GPIO_PIN_SET);
 	HAL_Delay(DELAY_TIME);
 
 
@@ -298,21 +299,21 @@ uint8_t TimeTest(){
 		//test measuring writing
 		HAL_Delay(DELAY_TIME);
 		ttimes[pos_t][0]=dsize;
-		HAL_GPIO_WritePin(TRIGGER_GPIO_Port,TRIGGER_Pin,GPIO_PIN_SET);
+		HAL_GPIO_WritePin(TRIGGER_GPIO_Port,TRIGGER_Pin,GPIO_PIN_RESET);
 		ttime=TIM2->CNT;
 //		QFlash_Write(addr, bufferout, dsize);
 		ttime=TIM2->CNT-ttime;
 		ttimes[pos_t][1]=ttime;
-		HAL_GPIO_WritePin(TRIGGER_GPIO_Port,TRIGGER_Pin,GPIO_PIN_RESET);
+		HAL_GPIO_WritePin(TRIGGER_GPIO_Port,TRIGGER_Pin,GPIO_PIN_SET);
 
 		//test measuring reading
 		HAL_Delay(DELAY_TIME);
-		HAL_GPIO_WritePin(TRIGGER_GPIO_Port,TRIGGER_Pin,GPIO_PIN_SET);
+		HAL_GPIO_WritePin(TRIGGER_GPIO_Port,TRIGGER_Pin,GPIO_PIN_RESET);
 		ttime=TIM2->CNT;
 		QFlash_Read(addr, bufferin, dsize);
 		ttime=TIM2->CNT-ttime;
 		ttimes[pos_t++][2]=ttime;
-		HAL_GPIO_WritePin(TRIGGER_GPIO_Port,TRIGGER_Pin,GPIO_PIN_RESET);
+		HAL_GPIO_WritePin(TRIGGER_GPIO_Port,TRIGGER_Pin,GPIO_PIN_SET);
 
 		// checking correct reading
 		for (uint32_t k=0; ((k<dsize) && flashOK); k++){
@@ -320,18 +321,18 @@ uint8_t TimeTest(){
 				flashOK=0;
 		}
 
-		HAL_GPIO_WritePin(USER_LED_GPIO_Port, USER_LED_Pin, GPIO_PIN_SET);
-		HAL_Delay(DELAY_TIME);
 		HAL_GPIO_WritePin(USER_LED_GPIO_Port, USER_LED_Pin, GPIO_PIN_RESET);
+		HAL_Delay(DELAY_TIME);
+		HAL_GPIO_WritePin(USER_LED_GPIO_Port, USER_LED_Pin, GPIO_PIN_SET);
 	}
 
 	if (!flashOK){
-		HAL_GPIO_WritePin(USER_LED_GPIO_Port, USER_LED_Pin, GPIO_PIN_SET);
+		HAL_GPIO_WritePin(USER_LED_GPIO_Port, USER_LED_Pin, GPIO_PIN_RESET);
 		__NOP();
 	} else
 		__NOP();
 
-	HAL_GPIO_WritePin(USER_LED_GPIO_Port, USER_LED_Pin, GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(USER_LED_GPIO_Port, USER_LED_Pin, GPIO_PIN_SET);
 
 	return flashOK;
 }

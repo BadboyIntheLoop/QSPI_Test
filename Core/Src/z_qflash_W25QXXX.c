@@ -19,6 +19,11 @@
 
 extern QSPI_HandleTypeDef FLASH_QSPI_PORT;
 
+// GPIO pin definitions for manual chip select control
+// CS pin is PG6 (QUADSPI_BK1_NCS)
+#define QFLASH_CS_PORT		GPIOG
+#define QFLASH_CS_PIN		GPIO_PIN_6
+
 static volatile uint8_t QSpiAvailable=1;  			// 0 if QuadSPI is busy; 1 if it is free (operation cplt); -1 if transmission error
 static volatile uint8_t QSpiReadDataAvailable=1;  	// 0 if QuadSPI is busy; 1 if it is free (operation cplt); -1 if transmission error
 
@@ -258,6 +263,8 @@ uint8_t data[256];
 
 	HAL_Delay(6);	// supposing init is called on system startup: 5 ms (tPUW) required after power-up to be fully available
 
+	QFlash_ChipSelect();
+
 // reset the device (supposing it is a W25Q)
 	if (QFlash_Reset()!=HAL_OK)
 		return HAL_ERROR;
@@ -273,7 +280,7 @@ uint8_t data[256];
 
 //testing if it is a Winbond memory
 	if (QFlash_ReadJedecID(data)) //select the memSize byte
-		return HAL_ERROR;;
+		return HAL_ERROR;
 	if (data[0] != 0xEF)  // if ManufacturerID is not Winbond (0xEF)
 		return HAL_ERROR;
 
@@ -283,7 +290,9 @@ uint8_t data[256];
 	if (QFlash_EnableMemoryMappedMode()==HAL_ERROR)
 		return HAL_ERROR;
 #endif //FLASH_QSPI_MEMORY_MAPPED
-
+	// Deselect chip
+	QFlash_ChipDeselect();
+	
 	return HAL_OK;  //return memSize as per table in Flash_ReadJedecID() definition
 }
 
@@ -342,8 +351,13 @@ HAL_StatusTypeDef QFlash_EnableMemoryMappedMode(void) {
 HAL_StatusTypeDef QFlash_Read(uint32_t address,  uint8_t* buffer, uint32_t dataSize) {
 QSPI_CommandTypeDef sCommand = {0};
 
-	if (dataSize==0)
+	// Select chip
+	// QFlash_ChipSelect();
+
+	if (dataSize==0) {
+		QFlash_ChipDeselect();
 		return HAL_OK;
+	}
 
 	QFlash_DefaultCmd(&sCommand);
     sCommand.Instruction		= QFLASH_READ_COMMAND;
@@ -376,7 +390,8 @@ QSPI_CommandTypeDef sCommand = {0};
     	return HAL_ERROR;
     }
 #endif //EXT_FLASH_QSPI_DMA_MODE
-
+    
+    // QFlash_ChipDeselect();
 	return HAL_OK;
 }
 
@@ -774,9 +789,14 @@ QFlash_DefaultCmd(&sCommand);
 HAL_StatusTypeDef QFlash_WriteASinglePage(uint32_t addr, uint8_t* dataptr, uint16_t dataSize){
 	QSPI_CommandTypeDef sCommand = {0};
 
+	// Select chip
+	QFlash_ChipSelect();
+
 	QFlash_DefaultCmd(&sCommand);
-	if (!dataSize)
+	if (!dataSize) {
+		QFlash_ChipDeselect();
 		return HAL_OK;
+	}
 
     sCommand.Instruction	= QFLASH_WRITE_COMMAND;
 	sCommand.AddressMode	= QSPI_ADDRESS_1_LINE;
@@ -802,6 +822,9 @@ HAL_StatusTypeDef QFlash_WriteASinglePage(uint32_t addr, uint8_t* dataptr, uint1
     	return HAL_ERROR;
     }
 #endif //EXT_FLASH_QSPI_DMA_MODE
+    
+    QFlash_ChipDeselect();
+    
 	return HAL_OK;
 }
 
@@ -822,8 +845,13 @@ HAL_StatusTypeDef  QFlash_Write(uint32_t addr, uint8_t* data, uint32_t dataSize)
 uint32_t quota;
 uint32_t inpage_addr;
 
-	if (dataSize==0)
+	// Select chip
+	// QFlash_ChipSelect();
+
+	if (dataSize==0) {
+		QFlash_ChipDeselect();
 		return HAL_OK;
+	}
 
 	// quota is the data size transferred until now
 	quota=0;
@@ -855,6 +883,9 @@ uint32_t inpage_addr;
 			return HAL_ERROR;
 		QFlash_WaitForWritingComplete();
 	}
+    
+    // QFlash_ChipDeselect();
+    
 	return HAL_OK;
 }
 
@@ -948,6 +979,7 @@ HAL_StatusTypeDef  QFlash_BErase32k(uint32_t addr){
 HAL_StatusTypeDef QFlash_BErase64k(uint32_t addr){
 	QSPI_CommandTypeDef sCommand = {0};
 
+	QFlash_ChipSelect();
 	QFlash_DefaultCmd(&sCommand);
 	if (QFlash_WaitForWritingComplete())
 		return HAL_ERROR;
@@ -969,6 +1001,9 @@ HAL_StatusTypeDef QFlash_BErase64k(uint32_t addr){
 
 	if (QFlash_WaitForWritingComplete())
 		return HAL_ERROR;
+
+	QFlash_ChipDeselect();
+
 	return HAL_OK;
 }
 
@@ -984,6 +1019,7 @@ HAL_StatusTypeDef QFlash_BErase64k(uint32_t addr){
 HAL_StatusTypeDef QFlash_ChipErase(){
 	QSPI_CommandTypeDef sCommand = {0};
 
+	QFlash_ChipSelect();
 	QFlash_DefaultCmd(&sCommand);
 	if (QFlash_WaitForWritingComplete())
 		return HAL_ERROR;
@@ -1004,6 +1040,8 @@ HAL_StatusTypeDef QFlash_ChipErase(){
 
 	if (QFlash_WaitForWritingComplete())
 		return HAL_ERROR;
+
+	QFlash_ChipDeselect();
 	return HAL_OK;
 }
 
@@ -1152,6 +1190,45 @@ QSPI_CommandTypeDef sCommand = {0};
 #endif //FLASH_QSPI_MEMORY_MAPPED
 
 
+
+/**************************************
+ * Manual Chip Select Control Functions
+ **************************************/
+
+/************************************************
+ * @BRIEF	Manually assert chip select (CS low)
+ * 			This function sets the CS line LOW to select
+ * 			the flash chip. Use this for manual control
+ * 			of the chip select when needed.
+ * @NOTE		This should only be used when QSPI peripheral
+ * 			is not actively controlling the CS line.
+ * 			Normally, the QSPI peripheral handles CS
+ * 			automatically during commands.
+ ************************************************/
+void QFlash_ChipSelect(void) {
+	// Configure CS pin as GPIO output if not already done
+	// GPIO_InitTypeDef GPIO_InitStruct = {0};
+	// GPIO_InitStruct.Pin = QFLASH_CS_PIN;
+	// GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+	// GPIO_InitStruct.Pull = GPIO_NOPULL;
+	// GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
+	// HAL_GPIO_Init(QFLASH_CS_PORT, &GPIO_InitStruct);
+
+	HAL_GPIO_WritePin(QFLASH_CS_PORT, QFLASH_CS_PIN, GPIO_PIN_RESET);
+}
+
+/************************************************
+ * @BRIEF	Manually deassert chip select (CS high)
+ * 			This function sets the CS line HIGH to deselect
+ * 			the flash chip.
+ * @NOTE		After using manual CS control, you may want
+ * 			to reconfigure the pin back to alternate function
+ * 			mode for normal QSPI operation.
+ ************************************************/
+void QFlash_ChipDeselect(void) {
+	// Deassert CS (pull high)
+	HAL_GPIO_WritePin(QFLASH_CS_PORT, QFLASH_CS_PIN, GPIO_PIN_SET);
+}
 
 /**************************************
  * functions required for TouchGFX

@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "Kconfig": "arm",
+        "stdio.h": "c",
+        "main.h": "c"
+    }
+}
